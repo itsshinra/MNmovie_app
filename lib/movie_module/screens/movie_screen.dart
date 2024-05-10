@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../models/movie_model.dart';
@@ -34,17 +33,22 @@ class _MovieScreenState extends State<MovieScreen> {
               onPressed: () {},
               icon: const Icon(Iconsax.search_normal),
             ),
-            CircleAvatar(
-              child: Image.network(
-                'https://i.pinimg.com/736x/2c/9e/0f/2c9e0f0f72943eb8585a1c0ef9f44689.jpg',
-                fit: BoxFit.cover,
+            SizedBox(
+              width: 50,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.network(
+                  'https://i.pinimg.com/736x/2c/9e/0f/2c9e0f0f72943eb8585a1c0ef9f44689.jpg',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ],
           bottom: TabBar(
+            tabAlignment: TabAlignment.start,
             isScrollable: true,
             unselectedLabelColor: Colors.white.withOpacity(0.3),
-            indicatorColor: Color.fromARGB(255, 238, 0, 0),
+            indicatorColor: const Color.fromARGB(255, 238, 0, 0),
             labelColor: Colors.white,
             tabs: const [
               Tab(
@@ -87,6 +91,7 @@ class _MovieScreenState extends State<MovieScreen> {
           ),
         ),
         body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             _container(),
             _buildBody(),
@@ -127,12 +132,12 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 
   Widget _container() {
-    return Column(
+    return ListView(
+      padding: const EdgeInsets.all(16),
       children: [
-        const SizedBox(height: 16),
         Container(
           width: 300,
-          height: 400,
+          // height: 400,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
@@ -145,6 +150,15 @@ class _MovieScreenState extends State<MovieScreen> {
             ),
           ),
         ),
+        const SizedBox(height: 16),
+        const Text(
+          'Now Showing',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -158,7 +172,7 @@ class _MovieScreenState extends State<MovieScreen> {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         // mainAxisSpacing: 10,
-        childAspectRatio: 1 / 1.5,
+        childAspectRatio: 1 / 1.7,
       ),
       itemCount: movieModel.results.length,
       itemBuilder: (context, index) {
@@ -178,15 +192,38 @@ class _MovieScreenState extends State<MovieScreen> {
         );
       },
       child: Card(
-        child: ListTile(
-          title: Image.network(item.posterPath),
-          subtitle: Text(
-            item.titleOrName,
-            style: const TextStyle(
-              fontSize: 20,
+        margin: const EdgeInsets.all(8),
+        color: Colors.transparent,
+        // child: ListTile(
+        //   title: Image.network(item.posterPath),
+        //   subtitle: Text(
+        //     item.titleOrName,
+        //     style: const TextStyle(
+        //       fontSize: 20,
+        //     ),
+        //     textAlign: TextAlign.center,
+        //   ),
+        // ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                item.posterPath,
+                fit: BoxFit.cover,
+              ),
             ),
-            textAlign: TextAlign.center,
-          ),
+            Text(
+              item.titleOrName,
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );

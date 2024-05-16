@@ -18,7 +18,7 @@ class MovieService {
     }
   }
 
-  // Up Coming Movies
+  //Movies
   static Future<MovieModel> getMovies() async {
     try {
       http.Response response = await http.get(Uri.parse(
@@ -29,22 +29,11 @@ class MovieService {
     }
   }
 
-  // Up Coming Movies
+  // Tv Show
   static Future<MovieModel> getTvShow() async {
     try {
       http.Response response = await http.get(Uri.parse(
           "https://api.themoviedb.org/3/trending/tv/day?api_key=$global_Api"));
-      return compute(movieModelFromMap, response.body);
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  // TopRated Movies
-  static Future<MovieModel> getTopRated() async {
-    try {
-      http.Response response = await http.get(Uri.parse(
-          "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc?api_key=$global_Api"));
       return compute(movieModelFromMap, response.body);
     } catch (e) {
       throw Exception(e.toString());

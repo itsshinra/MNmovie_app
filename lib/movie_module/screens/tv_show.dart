@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/movie_model.dart';
 import '../servies/movie_service.dart';
+import '../skeleton/movie_skeloton.dart';
 import 'screens_detail/movie_detail_screen.dart';
 
 class TvShowScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
           } else if (snapshot.connectionState == ConnectionState.done) {
             return _buildGridView(snapshot.data);
           } else {
-            return const CircularProgressIndicator();
+            return const MovieSkeleton();
           }
         },
       ),

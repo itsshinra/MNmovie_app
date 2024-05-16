@@ -22,12 +22,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   surfaceTintColor: Colors.transparent,
-      //   backgroundColor: Colors.transparent,
-      //   title: Text(widget.item.titleOrName),
-      //   centerTitle: true,
-      // ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

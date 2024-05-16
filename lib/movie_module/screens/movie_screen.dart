@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:movie_app/movie_module/screens/top_rated_screen.dart';
 import 'package:movie_app/movie_module/screens/tv_show.dart';
 import '../models/movie_model.dart';
 import '../servies/movie_service.dart';
+import '../skeleton/movie_skeloton.dart';
 import 'for_you.dart';
 import 'screens_detail/movie_detail_screen.dart';
 
@@ -18,7 +18,7 @@ class _MovieScreenState extends State<MovieScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -72,12 +72,6 @@ class _MovieScreenState extends State<MovieScreen> {
                   style: TextStyle(fontSize: 18),
                 ),
               ),
-              Tab(
-                child: Text(
-                  'Top Rated',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
             ],
           ),
         ),
@@ -87,7 +81,6 @@ class _MovieScreenState extends State<MovieScreen> {
             const ForYou(),
             _buildBody(),
             const TvShowScreen(),
-            const TopRatedScreen(),
           ],
         ),
       ),
@@ -105,7 +98,7 @@ class _MovieScreenState extends State<MovieScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             return _buildGridView(snapshot.data);
           } else {
-            return const CircularProgressIndicator();
+            return const MovieSkeleton();
           }
         },
       ),
@@ -146,16 +139,6 @@ class _MovieScreenState extends State<MovieScreen> {
       child: Card(
         margin: const EdgeInsets.all(8),
         color: Colors.transparent,
-        // child: ListTile(
-        //   title: Image.network(item.posterPath),
-        //   subtitle: Text(
-        //     item.titleOrName,
-        //     style: const TextStyle(
-        //       fontSize: 20,
-        //     ),
-        //     textAlign: TextAlign.center,
-        //   ),
-        // ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

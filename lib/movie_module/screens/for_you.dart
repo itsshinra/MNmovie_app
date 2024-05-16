@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/movie_module/models/movie_model.dart';
 import 'package:movie_app/movie_module/servies/movie_service.dart';
 
+import '../skeleton/for_you_skeleton.dart';
+import '../skeleton/trending_skeleton.dart';
+
 class ForYou extends StatefulWidget {
   const ForYou({super.key});
 
@@ -35,6 +38,89 @@ class _ForYouState extends State<ForYou> {
             fontSize: 20,
           ),
         ),
+
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 300,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 20,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    'https://images-cdn.ubuy.co.id/633feb8bd279163476374ad1-japan-anime-manga-poster-jujutsu.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+
+        const SizedBox(height: 16),
+        const Text(
+          'Tv Show',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 380,
+          child: FutureBuilder<MovieModel>(
+            future: MovieService.getMovies(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text(
+                    'Error Movie Reading: ${snapshot.error.toString()}');
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      margin: const EdgeInsets.all(8),
+                      color: Colors.transparent,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(
+                            height: 300,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                'https://images-cdn.ubuy.co.id/633feb8bd279163476374ad1-japan-anime-manga-poster-jujutsu.jpg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const Text(
+                            'Jujutsu Kaisen 1',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return const ForYouSkeleton();
+              }
+            },
+          ),
+        ),
       ],
     );
   }
@@ -51,7 +137,7 @@ class _ForYouState extends State<ForYou> {
           if (snapshot.connectionState == ConnectionState.done) {
             return _buildListView(snapshot.data);
           } else {
-            return const CircularProgressIndicator();
+            return const TrendingSkeleton();
           }
         },
       ),

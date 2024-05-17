@@ -30,10 +30,10 @@ class MovieService {
   }
 
   // Tv Show
-  static Future<MovieModel> getTvShow() async {
+  static Future<MovieModel> getTvShow({required int page}) async {
     try {
       http.Response response = await http.get(Uri.parse(
-          "https://api.themoviedb.org/3/trending/tv/day?api_key=$global_Api"));
+          "https://api.themoviedb.org/3/trending/tv/day?page=$page&api_key=$global_Api"));
       return compute(movieModelFromMap, response.body);
     } catch (e) {
       throw Exception(e.toString());

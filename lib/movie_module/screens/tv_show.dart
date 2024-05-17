@@ -12,43 +12,85 @@ class TvShowScreen extends StatefulWidget {
 }
 
 class _TvShowScreenState extends State<TvShowScreen> {
+  final ScrollController _scrollController = ScrollController();
+  List<Result> _movies = [];
+  int _currentPage = 1;
+  bool _isLoading = false;
+  bool _hasMore = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMovies();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !_isLoading &&
+        _hasMore) {
+      _fetchMovies();
+    }
+  }
+
+  Future<void> _fetchMovies() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final movieModel = await MovieService.getTvShow(page: _currentPage);
+      setState(() {
+        _movies.addAll(movieModel.results);
+        _currentPage++;
+        _hasMore = movieModel.results.isNotEmpty;
+      });
+    } catch (error) {
+      // Handle error here
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _buildBody();
+    return Scaffold(
+      body: _buildBody(),
+    );
   }
 
   Widget _buildBody() {
     return Center(
-      child: FutureBuilder<MovieModel>(
-        future: MovieService.getTvShow(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text("Error Movie Reading : ${snapshot.error.toString()}");
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            return _buildGridView(snapshot.data);
-          } else {
-            return const MovieSkeleton();
-          }
-        },
-      ),
+      child: _movies.isEmpty && _isLoading
+          ? const MovieSkeleton()
+          : _buildGridView(),
     );
   }
 
-  Widget _buildGridView(MovieModel? movieModel) {
-    if (movieModel == null) {
-      return const SizedBox();
-    }
-
+  Widget _buildGridView() {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: GridView.builder(
+        controller: _scrollController,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 1 / 1.7,
         ),
-        itemCount: movieModel.results.length,
+        itemCount: _movies.length + (_isLoading ? 1 : 0),
         itemBuilder: (context, index) {
-          return _buildItem(movieModel.results[index]);
+          if (index == _movies.length) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return _buildItem(_movies[index]);
         },
       ),
     );

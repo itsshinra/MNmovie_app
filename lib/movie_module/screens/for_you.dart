@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/movie_module/models/movie_model.dart';
+import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
 import 'package:movie_app/movie_module/servies/movie_service.dart';
 
 import '../skeleton/for_you_skeleton.dart';
@@ -73,7 +74,7 @@ class _ForYouState extends State<ForYou> {
         SizedBox(
           height: 380,
           child: FutureBuilder<MovieModel>(
-            future: MovieService.getMovies(),
+            future: MovieService.getTrendingMovies(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text(
@@ -168,14 +169,12 @@ class _ForYouState extends State<ForYou> {
         padding: const EdgeInsets.all(16.0),
         child: GestureDetector(
           onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => DetailScreen(
-            //       movie: snapshot.data[index], // Removed 'const' from here
-            //     ),
-            //   ),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MovieDetailPage(item),
+              ),
+            );
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),

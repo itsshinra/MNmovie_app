@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:movie_app/movie_module/screens/tv_show.dart';
@@ -15,6 +16,55 @@ class MovieScreen extends StatefulWidget {
 }
 
 class _MovieScreenState extends State<MovieScreen> {
+  List<Result> _movies = [];
+  int _currentPage = 1;
+  bool _isLoading = false;
+  bool _hasMore = true;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMovies();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent * 0.9 &&
+        !_isLoading &&
+        _hasMore) {
+      _fetchMovies();
+    }
+  }
+
+  Future<void> _fetchMovies() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      MovieModel newMovies = await MovieService.getMovies(page: _currentPage);
+      setState(() {
+        _currentPage++;
+        _movies.addAll(newMovies.results);
+        _hasMore = newMovies.results.isNotEmpty;
+      });
+    } catch (e) {
+      log("Error fetching movies: $e");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -89,40 +139,34 @@ class _MovieScreenState extends State<MovieScreen> {
 
   Widget _buildBody() {
     return Center(
-      child: FutureBuilder<MovieModel>(
-        future: MovieService.getMovies(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text("Error Movie Reading : ${snapshot.error.toString()}");
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            return _buildGridView(snapshot.data);
-          } else {
-            return const MovieSkeleton();
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildGridView(MovieModel? movieModel) {
-    if (movieModel == null) {
-      return const SizedBox();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          // mainAxisSpacing: 10,
-          childAspectRatio: 1 / 1.7,
-        ),
-        itemCount: movieModel.results.length,
-        itemBuilder: (context, index) {
-          return _buildItem(movieModel.results[index]);
-        },
-      ),
+      child: _isLoading && _movies.isEmpty
+          ? const MovieSkeleton()
+          : RefreshIndicator(
+              color: Colors.black,
+              backgroundColor: Colors.white,
+              onRefresh: () async {
+                setState(() {
+                  _movies.clear();
+                  _currentPage = 1;
+                  _hasMore = true;
+                });
+                await _fetchMovies();
+              },
+              child: GridView.builder(
+                controller: _scrollController,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1 / 1.7,
+                ),
+                itemCount: _movies.length + (_hasMore ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index == _movies.length) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return _buildItem(_movies[index]);
+                },
+              ),
+            ),
     );
   }
 

@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
 import '../models/movie_model.dart';
 import '../servies/movie_service.dart';
 import '../skeleton/movie_skeloton.dart';
-import 'screens_detail/movie_detail_screen.dart';
 
 class TvShowScreen extends StatefulWidget {
   const TvShowScreen({super.key});
@@ -12,11 +14,11 @@ class TvShowScreen extends StatefulWidget {
 }
 
 class _TvShowScreenState extends State<TvShowScreen> {
-  final ScrollController _scrollController = ScrollController();
   List<Result> _movies = [];
   int _currentPage = 1;
   bool _isLoading = false;
   bool _hasMore = true;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -32,8 +34,8 @@ class _TvShowScreenState extends State<TvShowScreen> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent &&
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent * 0.9 &&
         !_isLoading &&
         _hasMore) {
       _fetchMovies();
@@ -46,14 +48,14 @@ class _TvShowScreenState extends State<TvShowScreen> {
     });
 
     try {
-      final movieModel = await MovieService.getTvShow(page: _currentPage);
+      MovieModel movieModel = await MovieService.getTvShow(page: _currentPage);
       setState(() {
-        _movies.addAll(movieModel.results);
         _currentPage++;
+        _movies.addAll(movieModel.results);
         _hasMore = movieModel.results.isNotEmpty;
       });
-    } catch (error) {
-      // Handle error here
+    } catch (e) {
+      log("Error fetching movies: $e");
     } finally {
       setState(() {
         _isLoading = false;
@@ -63,36 +65,41 @@ class _TvShowScreenState extends State<TvShowScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(),
-    );
+    return _buildBody();
   }
 
   Widget _buildBody() {
     return Center(
-      child: _movies.isEmpty && _isLoading
+      child: _isLoading && _movies.isEmpty
           ? const MovieSkeleton()
-          : _buildGridView(),
-    );
-  }
-
-  Widget _buildGridView() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: GridView.builder(
-        controller: _scrollController,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1 / 1.7,
-        ),
-        itemCount: _movies.length + (_isLoading ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (index == _movies.length) {
-            return Center(child: CircularProgressIndicator());
-          }
-          return _buildItem(_movies[index]);
-        },
-      ),
+          : RefreshIndicator(
+              color: Colors.black,
+              backgroundColor: Colors.white,
+              onRefresh: () async {
+                setState(() {
+                  _movies.clear();
+                  _currentPage = 1;
+                  _hasMore = true;
+                });
+                await _fetchMovies();
+              },
+              child: GridView.builder(
+                controller: _scrollController,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1 / 1.7,
+                ),
+                itemCount: _movies.length + (_hasMore ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index == _movies.length) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return _buildItem(_movies[index]);
+                },
+              ),
+            ),
     );
   }
 
@@ -102,7 +109,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MovieDetailPage(item),
+            builder: (context) => TvShowDetailPage(item),
           ),
         );
       },

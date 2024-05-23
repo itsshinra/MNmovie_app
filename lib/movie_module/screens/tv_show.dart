@@ -73,6 +73,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
       child: _isLoading && _movies.isEmpty
           ? const MovieSkeleton()
           : RefreshIndicator(
+              triggerMode: RefreshIndicatorTriggerMode.onEdge,
               color: Colors.black,
               backgroundColor: Colors.white,
               onRefresh: () async {
@@ -85,6 +86,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
               },
               child: GridView.builder(
                 controller: _scrollController,
+                physics: const BouncingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 1 / 1.7,

@@ -153,6 +153,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 await _fetchMovies();
               },
               child: GridView.builder(
+                physics: const BouncingScrollPhysics(),
                 controller: _scrollController,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

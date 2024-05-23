@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/movie_module/models/movie_model.dart';
+import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
 import 'package:movie_app/movie_module/servies/movie_service.dart';
 
@@ -14,9 +15,11 @@ class ForYou extends StatefulWidget {
 }
 
 class _ForYouState extends State<ForYou> {
-  @override
+  UpcomingResult? _model;
+
   Widget build(BuildContext context) {
     return ListView(
+      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(16),
       children: [
         const Text(
@@ -31,7 +34,36 @@ class _ForYouState extends State<ForYou> {
         _buildBody(),
         const SizedBox(height: 16),
 
+        // Upcoming Movies
+        const Text(
+          'Upcoming Movies',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 380,
+          child: FutureBuilder<UpcomingMovieModel>(
+            future: MovieService.getUpcomingMovies(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text(
+                    'Error Movie Reading: ${snapshot.error.toString()}');
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                return _buildUpcoming(snapshot.data);
+              } else {
+                return const ForYouSkeleton();
+              }
+            },
+          ),
+        ),
+
         // Anime
+        const SizedBox(height: 16),
         const Text(
           'Anime',
           style: TextStyle(
@@ -39,7 +71,6 @@ class _ForYouState extends State<ForYou> {
             fontSize: 20,
           ),
         ),
-
         const SizedBox(height: 16),
         SizedBox(
           height: 300,
@@ -57,68 +88,6 @@ class _ForYouState extends State<ForYou> {
                   ),
                 ),
               );
-            },
-          ),
-        ),
-
-        const SizedBox(height: 16),
-        const Text(
-          'Tv Show',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 380,
-          child: FutureBuilder<MovieModel>(
-            future: MovieService.getTrendingMovies(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text(
-                    'Error Movie Reading: ${snapshot.error.toString()}');
-              }
-              if (snapshot.connectionState == ConnectionState.done) {
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      margin: const EdgeInsets.all(8),
-                      color: Colors.transparent,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SizedBox(
-                            height: 300,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                'https://images-cdn.ubuy.co.id/633feb8bd279163476374ad1-japan-anime-manga-poster-jujutsu.jpg',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const Text(
-                            'Jujutsu Kaisen 1',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              } else {
-                return const ForYouSkeleton();
-              }
             },
           ),
         ),
@@ -179,7 +148,7 @@ class _ForYouState extends State<ForYou> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
-              '${item.posterPath}',
+              item.posterPath,
               fit: BoxFit.cover,
             ),
           ),
@@ -189,5 +158,50 @@ class _ForYouState extends State<ForYou> {
   }
   // Trending end
 
-  // Anime body
+  // _upcoming body
+  Widget _buildUpcoming(UpcomingMovieModel? upcomingMovieModel) {
+    if (upcomingMovieModel == null) {
+      return const ForYouSkeleton();
+    }
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      shrinkWrap: true,
+      itemCount: upcomingMovieModel.results!.length,
+      itemBuilder: (context, index) {
+        return _buildUpcomingItem(upcomingMovieModel.results![index]);
+      },
+    );
+  }
+
+  Widget _buildUpcomingItem(UpcomingResult item) {
+    return Card(
+      margin: const EdgeInsets.all(8),
+      color: Colors.transparent,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          SizedBox(
+            height: 300,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                item.posterPath!,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Text(
+            item.title.toString(),
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+            ),
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+  // Upcoming end
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 
 import '../models/movie_model.dart';
 
@@ -13,6 +14,17 @@ class MovieService {
       http.Response response = await http.get(Uri.parse(
           "https://api.themoviedb.org/3/trending/all/week?api_key=$global_Api"));
       return compute(movieModelFromMap, response.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // Upcoming Movies
+  static Future<UpcomingMovieModel> getUpcomingMovies() async {
+    try {
+      http.Response response = await http.get(Uri.parse(
+          "https://api.themoviedb.org/3/movie/upcoming?api_key=$global_Api"));
+      return compute(upcomingMovieModelFromMap, response.body);
     } catch (e) {
       throw Exception(e.toString());
     }

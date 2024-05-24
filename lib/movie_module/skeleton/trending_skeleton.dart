@@ -16,23 +16,11 @@ class TrendingSkeleton extends StatelessWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
-              child: GestureDetector(
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => DetailScreen(
-                  //       movie: snapshot.data[index], // Removed 'const' from here
-                  //     ),
-                  //   ),
-                  // );
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    'https://images-cdn.ubuy.co.id/633feb8bd279163476374ad1-japan-anime-manga-poster-jujutsu.jpg',
-                    fit: BoxFit.cover,
-                  ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  'https://riverdalerobotics.com/images/placeholder.jpg',
+                  fit: BoxFit.cover,
                 ),
               ),
             );

@@ -1,9 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/movie_module/models/movie_model.dart';
+import 'package:movie_app/movie_module/models/top_rated_model.dart';
 import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
 import 'package:movie_app/movie_module/servies/movie_service.dart';
-
 import '../skeleton/for_you_skeleton.dart';
 import '../skeleton/trending_skeleton.dart';
 
@@ -15,8 +16,15 @@ class ForYou extends StatefulWidget {
 }
 
 class _ForYouState extends State<ForYou> {
-  UpcomingResult? _model;
+  late Future<MovieModel> trendingMovie;
 
+  @override
+  void initState() {
+    super.initState();
+    trendingMovie = MovieService.getTrendingMovies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
@@ -31,12 +39,13 @@ class _ForYouState extends State<ForYou> {
         ),
 
         // Trending Movies
-        _buildBody(),
+        const SizedBox(height: 16),
+        _buildTrending(),
         const SizedBox(height: 16),
 
         // Upcoming Movies
         const Text(
-          'Upcoming Movies',
+          'Upcoming',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -55,6 +64,34 @@ class _ForYouState extends State<ForYou> {
               }
               if (snapshot.connectionState == ConnectionState.done) {
                 return _buildUpcoming(snapshot.data);
+              } else {
+                return const ForYouSkeleton();
+              }
+            },
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // TopRated
+        const Text(
+          'TopRated',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 350,
+          child: FutureBuilder<TopRated>(
+            future: MovieService.getTopRated(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text(
+                    'Errror Movie Reading: ${snapshot.error.toString()}');
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                return _buildTopRatedBody(snapshot.data);
               } else {
                 return const ForYouSkeleton();
               }
@@ -96,64 +133,47 @@ class _ForYouState extends State<ForYou> {
   }
 
   // Trending body
-  Widget _buildBody() {
-    return Center(
-      child: FutureBuilder<MovieModel>(
-        future: MovieService.getTrendingMovies(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text("Error Movie Reading : ${snapshot.error.toString()}");
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            return _buildListView(snapshot.data);
-          } else {
-            return const TrendingSkeleton();
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildListView(MovieModel? movieModel) {
-    if (movieModel == null) {
-      return const SizedBox();
-    }
-    return SizedBox(
-      height: 550,
-      child: PageView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemCount: movieModel.results.length,
-        itemBuilder: (context, index) {
-          return _buildMovieSlider(movieModel.results[index]);
-        },
-      ),
-    );
-  }
-
-  Widget _buildMovieSlider(Result item) {
-    return SizedBox(
-      height: 550,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MovieDetailPage(item),
-              ),
-            );
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              item.posterPath,
-              fit: BoxFit.cover,
+  Widget _buildTrending() {
+    return FutureBuilder<MovieModel>(
+      future: trendingMovie,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Failed to load movies: ${snapshot.error.toString()}');
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          return CarouselSlider(
+            options: CarouselOptions(
+              height: 500,
+              enlargeCenterPage: true,
             ),
-          ),
-        ),
-      ),
+            items: snapshot.data!.results.map((movie) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MovieDetailPage(movie),
+                        ),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        movie.posterPath,
+                        fit: BoxFit.cover,
+                        width: 1000,
+                      ),
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          );
+        } else {
+          return const TrendingSkeleton();
+        }
+      },
     );
   }
   // Trending end
@@ -174,34 +194,83 @@ class _ForYouState extends State<ForYou> {
   }
 
   Widget _buildUpcomingItem(UpcomingResult item) {
-    return Card(
-      margin: const EdgeInsets.all(8),
-      color: Colors.transparent,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          SizedBox(
-            height: 300,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                item.posterPath!,
-                fit: BoxFit.cover,
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.55,
+      child: Card(
+        margin: const EdgeInsets.all(8),
+        color: Colors.transparent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              height: 300,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  item.posterPath!,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Text(
-            item.title.toString(),
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.white,
+            Text(
+              item.title.toString(),
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
             ),
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
   // Upcoming end
+
+  // TopRated body
+  Widget _buildTopRatedBody(TopRated? topRated) {
+    if (topRated == null) {
+      return const ForYouSkeleton();
+    }
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      shrinkWrap: true,
+      itemCount: topRated.results!.length,
+      itemBuilder: (context, index) {
+        return _buildTopRatedItem(topRated.results![index]);
+      },
+    );
+  }
+
+  Widget _buildTopRatedItem(TopRatedResult item) {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.55,
+      child: Card(
+        margin: const EdgeInsets.all(8),
+        color: Colors.transparent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              height: 300,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  item.posterPath!,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Text(
+              item.title.toString(),
+              style: const TextStyle(fontSize: 20, color: Colors.white),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

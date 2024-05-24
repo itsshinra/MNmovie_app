@@ -2,7 +2,6 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../models/movie_model.dart';
@@ -118,7 +117,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
-                        // overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
                       Text(

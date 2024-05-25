@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/movie_module/models/anime_model.dart';
 import 'package:movie_app/movie_module/models/movie_model.dart';
 import 'package:movie_app/movie_module/models/top_rated_model.dart';
 import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
+import 'package:movie_app/movie_module/screens/screens_detail/anime_detail_screen.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
 import 'package:movie_app/movie_module/servies/movie_service.dart';
 import '../skeleton/for_you_skeleton.dart';
@@ -17,6 +19,7 @@ class ForYou extends StatefulWidget {
 
 class _ForYouState extends State<ForYou> {
   late Future<MovieModel> trendingMovie;
+  final int _limit = 50;
 
   @override
   void initState() {
@@ -110,21 +113,19 @@ class _ForYouState extends State<ForYou> {
         ),
         const SizedBox(height: 16),
         SizedBox(
-          height: 300,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    'https://images-cdn.ubuy.co.id/633feb8bd279163476374ad1-japan-anime-manga-poster-jujutsu.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              );
+          height: 350,
+          child: FutureBuilder<AnimeModel>(
+            future: MovieService.getSeasonalAnimesApi(limit: _limit),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text(
+                    'Errror Movie Reading: ${snapshot.error.toString()}');
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                return _buildAnimeBody(snapshot.data);
+              } else {
+                return const ForYouSkeleton();
+              }
             },
           ),
         ),
@@ -269,6 +270,62 @@ class _ForYouState extends State<ForYou> {
               overflow: TextOverflow.ellipsis,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // anime body
+  Widget _buildAnimeBody(AnimeModel? animeModel) {
+    if (animeModel == null) {
+      return const ForYouSkeleton();
+    }
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      shrinkWrap: true,
+      itemCount: animeModel.data!.length,
+      itemBuilder: (context, index) {
+        return _buildAnimeItem(animeModel.data![index]);
+      },
+    );
+  }
+
+  Widget _buildAnimeItem(Datum item) {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.55,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AnimeDetailPage(item),
+            ),
+          );
+        },
+        child: Card(
+          margin: const EdgeInsets.all(8),
+          color: Colors.transparent,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: 300,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    item.node!.mainPicture!.medium.toString(),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Text(
+                item.node!.title.toString(),
+                style: const TextStyle(fontSize: 20, color: Colors.white),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );

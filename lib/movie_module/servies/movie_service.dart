@@ -1,12 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_app/movie_module/models/anime_model.dart';
 import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 
 import '../models/movie_model.dart';
 import '../models/top_rated_model.dart';
+import '../util/util.dart';
 
 // ignore: constant_identifier_names
 const global_Api = "1f1fbd508b3f8698eb1751a2a4dfe98f";
+const clientId = "a202af558073a9bfb0b53e9738bfcabc";
 
 class MovieService {
   // Trending Movies
@@ -65,6 +68,30 @@ class MovieService {
       // log("TV Shows Response: ${response.body}");
 
       return compute(movieModelFromMap, response.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // Anime
+  static Future<AnimeModel> getSeasonalAnimesApi({
+    required int limit,
+  }) async {
+    final year = DateTime.now().year;
+    final season = getCurrentSeason();
+    final baseUrl =
+        "https://api.myanimelist.net/v2/anime/season/$year/$season?limit=$limit";
+
+    // Make a GET request
+    try {
+      final response = await http.get(
+        Uri.parse(baseUrl),
+        headers: {
+          'X-MAL-CLIENT-ID': clientId,
+        },
+      );
+      return compute(animeModelFromMap as ComputeCallback<String, AnimeModel>,
+          response.body);
     } catch (e) {
       throw Exception(e.toString());
     }

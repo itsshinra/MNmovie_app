@@ -9,6 +9,8 @@ import 'package:movie_app/movie_module/models/tv_show_model.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
 
+import '../util/const.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -35,16 +37,21 @@ class _SearchScreenState extends State<SearchScreen> {
     final response = await http.get(
       Uri.parse(apiUrl),
       headers: {
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjFmYmQ1MDhiM2Y4Njk4ZWIxNzUxYTJhNGRmZTk4ZiIsInN1YiI6IjY1Y2Q3ZmJjODdmM2YyMDE3YmY0ODVmYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1tGroYT26mFHm3VzxJx6XH2kwJf_IT6-ugrgHFrydlQ',
+        'Authorization': 'Bearer $token',
         'accept': 'application/json',
       },
     );
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+      final results = data['results'] ?? [];
+
       setState(() {
-        searchResults = data['results'];
+        searchResults = results.where((result) {
+          return result['poster_path'] != null &&
+              (result['name'] != null || result['title'] != null) &&
+              result['overview'] != null;
+        }).toList();
       });
     } else {
       throw Exception('Failed to load search results');
@@ -138,47 +145,72 @@ class _SearchScreenState extends State<SearchScreen> {
                   final result = searchResults[index];
                   return Card(
                     color: Colors.grey.shade800,
-                    child: ListTile(
-                      onTap: () {
-                        if (result['media_type'] == 'movie') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  MovieDetailPage(Result.fromMap(result)),
-                            ),
-                          );
-                        } else if (result['media_type'] == 'tv') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TvShowDetailPage(
-                                  TvShowResult.fromMap(result)),
-                            ),
-                          );
-                        }
-                      },
-                      leading: result['poster_path'] != null
-                          ? SizedBox(
-                              width: 50,
-                              height: 100,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      child: InkWell(
+                        onTap: () {
+                          if (result['media_type'] == 'movie') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    MovieDetailPage(Result.fromMap(result)),
+                              ),
+                            );
+                          } else if (result['media_type'] == 'tv') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TvShowDetailPage(
+                                    TvShowResult.fromMap(result)),
+                              ),
+                            );
+                          }
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 100, // Adjust the width
+                              height: 150, // Adjust the height
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(10),
                                 child: Image.network(
                                   'https://image.tmdb.org/t/p/w92${result['poster_path']}',
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                            )
-                          : const SizedBox.shrink(),
-                      title: Text(
-                        result['name'] ?? result['title'] ?? 'N/A',
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Text(
-                        result['overview'] ?? 'N/A',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(
+                                width: 16), // Space between image and text
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    result['name'] ?? result['title'] ?? 'N/A',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    result['overview'] ?? 'N/A',
+                                    maxLines: 5,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
-import '../models/movie_model.dart';
+import '../models/tv_show_model.dart';
 import '../servies/movie_service.dart';
 import '../skeleton/movie_skeloton.dart';
 
@@ -14,7 +14,8 @@ class TvShowScreen extends StatefulWidget {
 }
 
 class _TvShowScreenState extends State<TvShowScreen> {
-  List<Result> _movies = [];
+  // ignore: prefer_final_fields
+  List<TvShowResult> _movies = [];
   int _currentPage = 1;
   bool _isLoading = false;
   bool _hasMore = true;
@@ -48,11 +49,11 @@ class _TvShowScreenState extends State<TvShowScreen> {
     });
 
     try {
-      MovieModel movieModel = await MovieService.getTvShow(page: _currentPage);
+      TvShow movieModel = await MovieService.getTvShow(page: _currentPage);
       setState(() {
         _currentPage++;
-        _movies.addAll(movieModel.results);
-        _hasMore = movieModel.results.isNotEmpty;
+        _movies.addAll(movieModel.results!);
+        _hasMore = movieModel.results!.isNotEmpty;
       });
     } catch (e) {
       log("Error fetching movies: $e");
@@ -105,7 +106,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
     );
   }
 
-  Widget _buildItem(Result item) {
+  Widget _buildItem(TvShowResult item) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -124,12 +125,12 @@ class _TvShowScreenState extends State<TvShowScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
-                item.posterPath,
+                item.posterPath!,
                 fit: BoxFit.cover,
               ),
             ),
             Text(
-              item.titleOrName,
+              item.name!,
               style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white,

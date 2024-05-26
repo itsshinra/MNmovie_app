@@ -42,6 +42,7 @@ dependencies:
   iconsax: ^0.0.8
   skeletonizer: ^1.1.2+1
   carousel_slider: ^4.2.1
+  page_transition: ^2.1.0
 
 dev_dependencies:
   flutter_test:

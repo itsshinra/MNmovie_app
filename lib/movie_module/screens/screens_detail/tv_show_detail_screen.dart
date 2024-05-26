@@ -2,13 +2,12 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../models/movie_model.dart';
+import 'package:movie_app/movie_module/models/tv_show_model.dart';
 
 class TvShowDetailPage extends StatefulWidget {
-  Result item;
+  TvShowResult item;
   TvShowDetailPage(this.item, {super.key});
 
   @override
@@ -27,7 +26,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(widget.item.posterPath),
+            image: NetworkImage(widget.item.posterPath!),
             fit: BoxFit.cover,
           ),
         ),
@@ -82,7 +81,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
               ),
               Expanded(
                 child: Text(
-                  widget.item.titleOrName,
+                  widget.item.name!,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -101,7 +100,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
-                    widget.item.posterPath,
+                    widget.item.posterPath!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -149,7 +148,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
                           RatingBar(
                             itemSize: 24,
                             allowHalfRating: true,
-                            initialRating: widget.item.voteAverage / 2,
+                            initialRating: widget.item.voteAverage! / 2,
                             itemCount: 1,
                             ratingWidget: RatingWidget(
                               full: const Icon(
@@ -169,7 +168,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            widget.item.voteAverage.toStringAsFixed(1),
+                            widget.item.voteAverage!.toStringAsFixed(1),
                             style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
@@ -238,7 +237,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            widget.item.overview,
+            widget.item.overview!,
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.start,
           ),

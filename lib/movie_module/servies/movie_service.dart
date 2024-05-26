@@ -5,6 +5,7 @@ import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 
 import '../models/movie_model.dart';
 import '../models/top_rated_model.dart';
+import '../models/tv_show_model.dart';
 import '../util/util.dart';
 
 // ignore: constant_identifier_names
@@ -60,14 +61,14 @@ class MovieService {
   }
 
   // Tv Show
-  static Future<MovieModel> getTvShow({required int page}) async {
+  static Future<TvShow> getTvShow({required int page}) async {
     try {
       http.Response response = await http.get(Uri.parse(
           "https://api.themoviedb.org/3/trending/tv/week?page=$page&api_key=$global_Api"));
 
       // log("TV Shows Response: ${response.body}");
 
-      return compute(movieModelFromMap, response.body);
+      return compute(tvShowFromMap, response.body);
     } catch (e) {
       throw Exception(e.toString());
     }

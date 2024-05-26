@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:movie_app/movie_module/screens/search_screen.dart';
 import 'package:movie_app/movie_module/screens/tv_show.dart';
+import 'package:page_transition/page_transition.dart';
 import '../models/movie_model.dart';
 import '../servies/movie_service.dart';
 import '../skeleton/movie_skeloton.dart';
@@ -16,6 +18,7 @@ class MovieScreen extends StatefulWidget {
 }
 
 class _MovieScreenState extends State<MovieScreen> {
+  // ignore: prefer_final_fields
   List<Result> _movies = [];
   int _currentPage = 1;
   bool _isLoading = false;
@@ -83,19 +86,28 @@ class _MovieScreenState extends State<MovieScreen> {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
-              icon: const Icon(Iconsax.search_normal),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    duration: const Duration(milliseconds: 300),
+                    child: const SearchScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(Iconsax.search_normal_1),
             ),
-            SizedBox(
-              width: 50,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.network(
-                  'https://i.pinimg.com/736x/2c/9e/0f/2c9e0f0f72943eb8585a1c0ef9f44689.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: 50,
+            //   child: ClipRRect(
+            //     borderRadius: BorderRadius.circular(50),
+            //     child: Image.network(
+            //       'https://i.pinimg.com/736x/2c/9e/0f/2c9e0f0f72943eb8585a1c0ef9f44689.jpg',
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
           ],
           bottom: TabBar(
             tabAlignment: TabAlignment.center,

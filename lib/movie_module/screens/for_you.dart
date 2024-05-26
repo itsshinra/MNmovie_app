@@ -28,6 +28,11 @@ class _ForYouState extends State<ForYou> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
@@ -274,6 +279,7 @@ class _ForYouState extends State<ForYou> {
       ),
     );
   }
+  // TopRated end
 
   // anime body
   Widget _buildAnimeBody(AnimeModel? animeModel) {
@@ -330,4 +336,5 @@ class _ForYouState extends State<ForYou> {
       ),
     );
   }
+  // anime end
 }

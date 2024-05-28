@@ -21,6 +21,3 @@ samples, guidance on mobile development, and a full API reference.
 ![Screenshot 2024-05-28 215348](https://github.com/sovanmakara3/MNmovie_app/assets/149930323/fb4afd5c-39cb-4a88-933a-be8683f53eef)
 ![Screenshot 2024-05-28 215359](https://github.com/sovanmakara3/MNmovie_app/assets/149930323/5329b7b7-0426-4a35-9246-9ab4b20f7a0f)
 ![Screenshot 2024-05-28 215418](https://github.com/sovanmakara3/MNmovie_app/assets/149930323/1441f964-6e90-483b-a349-3177ac75a0ad)
-![Screenshot 2024-05-25 235715](https://github.com/sovanmakara3/MNmovie_app/assets/149930323/bb864355-1045-4f92-ba3d-58d5dd33829c)
-![Screenshot 2024-05-26 000217](https://github.com/sovanmakara3/MNmovie_app/assets/149930323/2b9c5f67-adc9-473d-b656-f513a5b26b0a)
-![Screenshot 2024-05-26 000246](https://github.com/sovanmakara3/MNmovie_app/assets/149930323/364e0eee-0b91-424b-8b34-cf680ec3833e)

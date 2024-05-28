@@ -2,7 +2,6 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:movie_app/movie_module/models/anime_model.dart';
 
@@ -120,17 +119,17 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(
+                      const Text(
                         'Original Langugae: ',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(
+                      const Text(
                         "Release Date: ",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
@@ -145,30 +144,42 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          RatingBar(
-                            itemSize: 24,
-                            allowHalfRating: true,
-                            itemCount: 1,
-                            ratingWidget: RatingWidget(
-                              full: const Icon(
-                                Icons.star_rounded,
-                                color: Colors.yellow,
-                              ),
-                              half: const Icon(
-                                Icons.star_half_rounded,
-                                color: Colors.orange,
-                              ),
-                              empty: const Icon(
-                                Icons.star_border_rounded,
-                                color: Colors.white,
-                              ),
+                          // RatingBar(
+                          //   itemSize: 24,
+                          //   allowHalfRating: true,
+                          //   itemCount: 1,
+                          //   ratingWidget: RatingWidget(
+                          //     full: const Icon(
+                          //       Icons.star_rounded,
+                          //       color: Colors.yellow,
+                          //     ),
+                          //     half: const Icon(
+                          //       Icons.star_half_rounded,
+                          //       color: Colors.orange,
+                          //     ),
+                          //     empty: const Icon(
+                          //       Icons.star_border_rounded,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
+                          //   onRatingUpdate: (double value) {},
+                          // ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 6, right: 11),
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.amber.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                            onRatingUpdate: (double value) {},
+                            child: const Icon(
+                              Iconsax.star1,
+                              color: Colors.amber,
+                            ),
                           ),
                           const SizedBox(width: 5),
-                          Text(
+                          const Text(
                             '',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
                             ),

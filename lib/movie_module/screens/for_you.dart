@@ -6,6 +6,8 @@ import 'package:movie_app/movie_module/models/top_rated_model.dart';
 import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/anime_detail_screen.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
+import 'package:movie_app/movie_module/screens/screens_detail/toprate_detail_screen.dart';
+import 'package:movie_app/movie_module/screens/screens_detail/upcoming_detail_screen.dart';
 import 'package:movie_app/movie_module/servies/movie_service.dart';
 import '../skeleton/for_you_skeleton.dart';
 import '../skeleton/trending_skeleton.dart';
@@ -19,126 +21,132 @@ class ForYou extends StatefulWidget {
 
 class _ForYouState extends State<ForYou> {
   late Future<MovieModel> trendingMovie;
+  late Future<UpcomingMovieModel> upcomingMovies;
+  late Future<TopRated> topRatedMovies;
+  late Future<AnimeModel> seasonalAnimes;
   final int _limit = 50;
 
   @override
   void initState() {
     super.initState();
-    trendingMovie = MovieService.getTrendingMovies();
+    fetchData();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void fetchData() {
+    setState(() {
+      trendingMovie = MovieService.getTrendingMovies();
+      upcomingMovies = MovieService.getUpcomingMovies();
+      topRatedMovies = MovieService.getTopRated();
+      seasonalAnimes = MovieService.getSeasonalAnimesApi(limit: _limit);
+    });
+  }
+
+  Future<void> _refresh() async {
+    fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.all(16),
-      children: [
-        const Text(
-          'Trending',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+    return RefreshIndicator(
+      color: Colors.black,
+      backgroundColor: Colors.white,
+      onRefresh: _refresh,
+      child: ListView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(16),
+        children: [
+          const Text(
+            'Trending',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-
-        // Trending Movies
-        const SizedBox(height: 16),
-        _buildTrending(),
-        const SizedBox(height: 16),
-
-        // Upcoming Movies
-        const Text(
-          'Upcoming',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+          const SizedBox(height: 16),
+          _buildTrending(),
+          const SizedBox(height: 16),
+          const Text(
+            'Upcoming',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           ),
-        ),
-
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 380,
-          child: FutureBuilder<UpcomingMovieModel>(
-            future: MovieService.getUpcomingMovies(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text(
-                    'Error Movie Reading: ${snapshot.error.toString()}');
-              }
-              if (snapshot.connectionState == ConnectionState.done) {
-                return _buildUpcoming(snapshot.data);
-              } else {
-                return const ForYouSkeleton();
-              }
-            },
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 380,
+            child: FutureBuilder<UpcomingMovieModel>(
+              future: upcomingMovies,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(
+                      'Error Movie Reading: ${snapshot.error.toString()}');
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return _buildUpcoming(snapshot.data);
+                } else {
+                  return const ForYouSkeleton();
+                }
+              },
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-
-        // TopRated
-        const Text(
-          'TopRated',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+          const SizedBox(height: 16),
+          const Text(
+            'TopRated',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 350,
-          child: FutureBuilder<TopRated>(
-            future: MovieService.getTopRated(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text(
-                    'Errror Movie Reading: ${snapshot.error.toString()}');
-              }
-              if (snapshot.connectionState == ConnectionState.done) {
-                return _buildTopRatedBody(snapshot.data);
-              } else {
-                return const ForYouSkeleton();
-              }
-            },
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 350,
+            child: FutureBuilder<TopRated>(
+              future: topRatedMovies,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(
+                      'Errror Movie Reading: ${snapshot.error.toString()}');
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return _buildTopRatedBody(snapshot.data);
+                } else {
+                  return const ForYouSkeleton();
+                }
+              },
+            ),
           ),
-        ),
-
-        // Anime
-        const SizedBox(height: 16),
-        const Text(
-          'Anime',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+          const SizedBox(height: 16),
+          const Text(
+            'Anime',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 350,
-          child: FutureBuilder<AnimeModel>(
-            future: MovieService.getSeasonalAnimesApi(limit: _limit),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text(
-                    'Errror Movie Reading: ${snapshot.error.toString()}');
-              }
-              if (snapshot.connectionState == ConnectionState.done) {
-                return _buildAnimeBody(snapshot.data);
-              } else {
-                return const ForYouSkeleton();
-              }
-            },
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 350,
+            child: FutureBuilder<AnimeModel>(
+              future: seasonalAnimes,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(
+                      'Errror Movie Reading: ${snapshot.error.toString()}');
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return _buildAnimeBody(snapshot.data);
+                } else {
+                  return const ForYouSkeleton();
+                }
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  // Trending body
   Widget _buildTrending() {
     return FutureBuilder<MovieModel>(
       future: trendingMovie,
@@ -182,9 +190,7 @@ class _ForYouState extends State<ForYou> {
       },
     );
   }
-  // Trending end
 
-  // _upcoming body
   Widget _buildUpcoming(UpcomingMovieModel? upcomingMovieModel) {
     if (upcomingMovieModel == null) {
       return const ForYouSkeleton();
@@ -202,39 +208,47 @@ class _ForYouState extends State<ForYou> {
   Widget _buildUpcomingItem(UpcomingResult item) {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * 0.55,
-      child: Card(
-        margin: const EdgeInsets.all(8),
-        color: Colors.transparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              height: 300,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  item.posterPath!,
-                  fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UpcomingDetailPage(item),
+            ),
+          );
+        },
+        child: Card(
+          margin: const EdgeInsets.all(8),
+          color: Colors.transparent,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: 300,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    item.posterPath!,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              item.title.toString(),
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.white,
+              Text(
+                item.title.toString(),
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
-  // Upcoming end
 
-  // TopRated body
   Widget _buildTopRatedBody(TopRated? topRated) {
     if (topRated == null) {
       return const ForYouSkeleton();
@@ -252,36 +266,44 @@ class _ForYouState extends State<ForYou> {
   Widget _buildTopRatedItem(TopRatedResult item) {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * 0.55,
-      child: Card(
-        margin: const EdgeInsets.all(8),
-        color: Colors.transparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              height: 300,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  item.posterPath!,
-                  fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TopRatedDetailPage(item),
+            ),
+          );
+        },
+        child: Card(
+          margin: const EdgeInsets.all(8),
+          color: Colors.transparent,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: 300,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    item.posterPath!,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              item.title.toString(),
-              style: const TextStyle(fontSize: 20, color: Colors.white),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+              Text(
+                item.title.toString(),
+                style: const TextStyle(fontSize: 20, color: Colors.white),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-  // TopRated end
 
-  // anime body
   Widget _buildAnimeBody(AnimeModel? animeModel) {
     if (animeModel == null) {
       return const ForYouSkeleton();
@@ -336,5 +358,4 @@ class _ForYouState extends State<ForYou> {
       ),
     );
   }
-  // anime end
 }

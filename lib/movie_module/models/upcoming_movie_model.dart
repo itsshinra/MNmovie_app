@@ -73,7 +73,6 @@ class Dates {
 }
 
 class UpcomingResult {
-  bool? adult;
   String? backdropPath;
   List<int>? genreIds;
   int? id;
@@ -84,12 +83,10 @@ class UpcomingResult {
   String? posterPath;
   DateTime? releaseDate;
   String? title;
-  bool? video;
   double? voteAverage;
   int? voteCount;
 
   UpcomingResult({
-    this.adult,
     this.backdropPath,
     this.genreIds,
     this.id,
@@ -100,13 +97,16 @@ class UpcomingResult {
     this.posterPath,
     this.releaseDate,
     this.title,
-    this.video,
     this.voteAverage,
     this.voteCount,
   });
 
+  String get dateOnly {
+    if (releaseDate == null) return "";
+    return "${releaseDate!.day}/${releaseDate!.month}/${releaseDate!.year}";
+  }
+
   factory UpcomingResult.fromMap(Map<String, dynamic> json) => UpcomingResult(
-        adult: json["adult"],
         backdropPath: json["backdrop_path"],
         genreIds: json["genre_ids"] == null
             ? []
@@ -121,13 +121,11 @@ class UpcomingResult {
             ? null
             : DateTime.parse(json["release_date"]),
         title: json["title"],
-        video: json["video"],
         voteAverage: json["vote_average"]?.toDouble(),
         voteCount: json["vote_count"],
       );
 
   Map<String, dynamic> toMap() => {
-        "adult": adult,
         "backdrop_path": backdropPath,
         "genre_ids":
             genreIds == null ? [] : List<dynamic>.from(genreIds!.map((x) => x)),
@@ -140,7 +138,6 @@ class UpcomingResult {
         "release_date":
             "${releaseDate!.year.toString().padLeft(4, '0')}-${releaseDate!.month.toString().padLeft(2, '0')}-${releaseDate!.day.toString().padLeft(2, '0')}",
         "title": title,
-        "video": video,
         "vote_average": voteAverage,
         "vote_count": voteCount,
       };

@@ -3,17 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../models/movie_model.dart';
+import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 
-class MovieDetailPage extends StatefulWidget {
-  Result item;
-  MovieDetailPage(this.item, {super.key});
+class UpcomingDetailPage extends StatefulWidget {
+  UpcomingDetailPage(this.item, {super.key});
+  UpcomingResult item;
 
   @override
-  State<MovieDetailPage> createState() => _MovieDetailPageState();
+  State<UpcomingDetailPage> createState() => _UpcomingDetailPageState();
 }
 
-class _MovieDetailPageState extends State<MovieDetailPage> {
+class _UpcomingDetailPageState extends State<UpcomingDetailPage> {
   @override
   void dispose() {
     super.dispose();
@@ -25,7 +25,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(widget.item.posterPath),
+            image: NetworkImage(widget.item.posterPath!),
             fit: BoxFit.cover,
           ),
         ),
@@ -80,7 +80,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               ),
               Expanded(
                 child: Text(
-                  widget.item.titleOrName,
+                  widget.item.title!,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -99,7 +99,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
-                    widget.item.posterPath,
+                    widget.item.posterPath!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -155,7 +155,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                 RatingBar(
                                   itemSize: 24,
                                   allowHalfRating: true,
-                                  initialRating: widget.item.voteAverage / 2,
+                                  initialRating: widget.item.voteAverage! / 2,
                                   itemCount: 1,
                                   ratingWidget: RatingWidget(
                                     full: const Icon(
@@ -175,7 +175,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  widget.item.voteAverage.toStringAsFixed(1),
+                                  widget.item.voteAverage!.toStringAsFixed(1),
                                   style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
@@ -242,7 +242,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            widget.item.overview,
+            widget.item.overview!,
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.start,
           ),

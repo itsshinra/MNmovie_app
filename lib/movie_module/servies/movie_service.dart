@@ -75,9 +75,7 @@ class MovieService {
   }
 
   // Anime
-  static Future<AnimeModel> getSeasonalAnimesApi({
-    required int limit,
-  }) async {
+  static Future<AnimeModel> getSeasonalAnimesApi({required int limit}) async {
     final year = DateTime.now().year;
     final season = getCurrentSeason();
     final baseUrl =

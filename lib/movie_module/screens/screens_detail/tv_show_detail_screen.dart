@@ -145,33 +145,45 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          RatingBar(
-                            itemSize: 24,
-                            allowHalfRating: true,
-                            initialRating: widget.item.voteAverage! / 2,
-                            itemCount: 1,
-                            ratingWidget: RatingWidget(
-                              full: const Icon(
-                                Icons.star_rounded,
-                                color: Colors.yellow,
-                              ),
-                              half: const Icon(
-                                Icons.star_half_rounded,
-                                color: Colors.orange,
-                              ),
-                              empty: const Icon(
-                                Icons.star_border_rounded,
-                                color: Colors.white,
-                              ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 6, right: 6),
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.amber.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                            onRatingUpdate: (double value) {},
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            widget.item.voteAverage!.toStringAsFixed(1),
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
+                            child: Row(
+                              children: [
+                                RatingBar(
+                                  itemSize: 24,
+                                  allowHalfRating: true,
+                                  initialRating: widget.item.voteAverage! / 2,
+                                  itemCount: 1,
+                                  ratingWidget: RatingWidget(
+                                    full: const Icon(
+                                      Icons.star_rounded,
+                                      color: Colors.yellow,
+                                    ),
+                                    half: const Icon(
+                                      Icons.star_half_rounded,
+                                      color: Colors.orange,
+                                    ),
+                                    empty: const Icon(
+                                      Icons.star_border_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  onRatingUpdate: (double value) {},
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  widget.item.voteAverage!.toStringAsFixed(1),
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],

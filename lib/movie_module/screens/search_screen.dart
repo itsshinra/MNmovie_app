@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:http/http.dart' as http;
@@ -8,7 +7,6 @@ import 'package:movie_app/movie_module/models/movie_model.dart';
 import 'package:movie_app/movie_module/models/tv_show_model.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
-
 import '../util/const.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -34,27 +32,31 @@ class _SearchScreenState extends State<SearchScreen> {
     final String apiUrl =
         'https://api.themoviedb.org/3/search/multi?include_adult=true&query=$query';
 
-    final response = await http.get(
-      Uri.parse(apiUrl),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'accept': 'application/json',
-      },
-    );
+    try {
+      final response = await http.get(
+        Uri.parse(apiUrl),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'accept': 'application/json',
+        },
+      );
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final results = data['results'] ?? [];
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] ?? [];
 
-      setState(() {
-        searchResults = results.where((result) {
-          return result['poster_path'] != null &&
-              (result['name'] != null || result['title'] != null) &&
-              result['overview'] != null;
-        }).toList();
-      });
-    } else {
-      throw Exception('Failed to load search results');
+        setState(() {
+          searchResults = results.where((result) {
+            return result['poster_path'] != null &&
+                (result['name'] != null || result['title'] != null) &&
+                result['overview'] != null;
+          }).toList();
+        });
+      } else {
+        throw Exception('Failed to load search results');
+      }
+    } catch (e) {
+      // Handle the exception, e.g., show a snackbar or log the error
     }
   }
 
@@ -91,133 +93,180 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         foregroundColor: Colors.white,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
           icon: const Icon(Iconsax.arrow_left_2),
         ),
-        title: const Text(
-          'Search your Movies',
-          style: TextStyle(fontSize: 20),
+        title: SizedBox(
+          height: 50,
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(color: Colors.grey, width: 1.1),
+              ),
+              hintText: 'Search here...',
+              hintStyle: TextStyle(
+                color: Colors.grey.shade500,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              filled: true,
+              fillColor: Colors.grey.shade700,
+              prefixIcon: const Icon(Iconsax.search_normal_1),
+              suffixIcon: _searchController.text.isEmpty
+                  ? null
+                  : IconButton(
+                      icon:
+                          const Icon(Iconsax.close_circle, color: Colors.white),
+                      onPressed: () => _searchController.clear(),
+                    ),
+            ),
+            style: const TextStyle(color: Colors.white),
+            onChanged: _onSearchChanged,
+          ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              autofocus: true,
-              controller: _searchController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 238, 0, 0),
-                    width: 1.1,
-                  ),
-                ),
-                labelText: 'Search here...',
-                labelStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey.shade500,
-                ),
-                fillColor: Colors.grey.shade700,
-                filled: true,
-                suffixIcon: IconButton(
-                  icon: const Icon(Iconsax.search_normal_1),
-                  onPressed: () {
-                    _performSearch(_searchController.text);
-                  },
-                ),
-              ),
-              onChanged: _onSearchChanged,
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: searchResults.length,
-                itemBuilder: (context, index) {
-                  final result = searchResults[index];
-                  return Card(
-                    color: Colors.grey.shade800,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: InkWell(
-                        onTap: () {
-                          if (result['media_type'] == 'movie') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    MovieDetailPage(Result.fromMap(result)),
-                              ),
-                            );
-                          } else if (result['media_type'] == 'tv') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TvShowDetailPage(
-                                    TvShowResult.fromMap(result)),
-                              ),
-                            );
-                          }
-                        },
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100, // Adjust the width
-                              height: 150, // Adjust the height
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  'https://image.tmdb.org/t/p/w92${result['poster_path']}',
-                                  fit: BoxFit.cover,
+      body: InkWell(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              _searchController.text.isEmpty
+                  ? Expanded(
+                      child: Center(
+                        child: Image.asset('assets/Movie Night-amico.png'),
+                      ),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: searchResults.length,
+                        itemBuilder: (context, index) {
+                          final result = searchResults[index];
+                          return Card(
+                            color: Colors.grey.shade800,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              child: InkWell(
+                                onTap: () {
+                                  final route = result['media_type'] == 'movie'
+                                      ? MaterialPageRoute(
+                                          builder: (context) => MovieDetailPage(
+                                              Result.fromMap(result)))
+                                      : MaterialPageRoute(
+                                          builder: (context) =>
+                                              TvShowDetailPage(
+                                                  TvShowResult.fromMap(
+                                                      result)));
+                                  Navigator.push(context, route);
+                                },
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        'https://image.tmdb.org/t/p/w92${result['poster_path']}',
+                                        width: 100,
+                                        height: 150,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            result['name'] ??
+                                                result['title'] ??
+                                                'N/A',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            result['overview'] ?? 'N/A',
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            'Media Type: ${result['media_type']}',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                'Rating: ',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 20,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 6),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.amber
+                                                      .withOpacity(0.2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Wrap(
+                                                  crossAxisAlignment:
+                                                      WrapCrossAlignment.center,
+                                                  spacing: 5,
+                                                  children: [
+                                                    const Icon(
+                                                      Iconsax.star1,
+                                                      color: Colors.amber,
+                                                      size: 18,
+                                                    ),
+                                                    Text(
+                                                      result['vote_average']
+                                                          .toStringAsFixed(1),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                                width: 16), // Space between image and text
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    result['name'] ?? result['title'] ?? 'N/A',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    result['overview'] ?? 'N/A',
-                                    maxLines: 5,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

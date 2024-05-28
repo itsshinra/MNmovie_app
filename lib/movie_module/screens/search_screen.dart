@@ -145,126 +145,149 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: Image.asset('assets/Movie Night-amico.png'),
                       ),
                     )
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: searchResults.length,
-                        itemBuilder: (context, index) {
-                          final result = searchResults[index];
-                          return Card(
-                            color: Colors.grey.shade800,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 16),
-                              child: InkWell(
-                                onTap: () {
-                                  final route = result['media_type'] == 'movie'
-                                      ? MaterialPageRoute(
-                                          builder: (context) => MovieDetailPage(
-                                              Result.fromMap(result)))
-                                      : MaterialPageRoute(
-                                          builder: (context) =>
-                                              TvShowDetailPage(
-                                                  TvShowResult.fromMap(
-                                                      result)));
-                                  Navigator.push(context, route);
-                                },
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        'https://image.tmdb.org/t/p/w92${result['poster_path']}',
-                                        width: 100,
-                                        height: 150,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            result['name'] ??
-                                                result['title'] ??
-                                                'N/A',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                  : searchResults.isEmpty
+                      ? const Expanded(
+                          child: Center(
+                            child: Text(
+                              'Movies not found',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            itemCount: searchResults.length,
+                            itemBuilder: (context, index) {
+                              final result = searchResults[index];
+                              return Card(
+                                color: Colors.grey.shade800,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 16),
+                                  child: InkWell(
+                                    onTap: () {
+                                      final route =
+                                          result['media_type'] == 'movie'
+                                              ? MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MovieDetailPage(
+                                                    Result.fromMap(
+                                                      result,
+                                                    ),
+                                                  ),
+                                                )
+                                              : MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TvShowDetailPage(
+                                                          TvShowResult.fromMap(
+                                                              result)));
+                                      Navigator.push(context, route);
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                            'https://image.tmdb.org/t/p/w92${result['poster_path']}',
+                                            width: 100,
+                                            height: 150,
+                                            fit: BoxFit.cover,
                                           ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            result['overview'] ?? 'N/A',
-                                            maxLines: 3,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            'Media Type: ${result['media_type']}',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Row(
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              const Text(
-                                                'Rating: ',
-                                                style: TextStyle(
+                                              Text(
+                                                result['name'] ??
+                                                    result['title'] ??
+                                                    'N/A',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Text(
+                                                result['overview'] ?? 'N/A',
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.grey,
                                                 ),
                                               ),
-                                              Container(
-                                                height: 20,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
+                                              const SizedBox(height: 5),
+                                              Text(
+                                                'Media Type: ${result['media_type']}',
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    'Rating: ',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    height: 20,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
                                                         horizontal: 6),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.amber
-                                                      .withOpacity(0.2),
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Wrap(
-                                                  crossAxisAlignment:
-                                                      WrapCrossAlignment.center,
-                                                  spacing: 5,
-                                                  children: [
-                                                    const Icon(
-                                                      Iconsax.star1,
-                                                      color: Colors.amber,
-                                                      size: 18,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.amber
+                                                          .withOpacity(0.2),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6),
                                                     ),
-                                                    Text(
-                                                      result['vote_average']
-                                                          .toStringAsFixed(1),
+                                                    child: Wrap(
+                                                      crossAxisAlignment:
+                                                          WrapCrossAlignment
+                                                              .center,
+                                                      spacing: 5,
+                                                      children: [
+                                                        const Icon(
+                                                          Iconsax.star1,
+                                                          color: Colors.amber,
+                                                          size: 18,
+                                                        ),
+                                                        Text(
+                                                          result['vote_average']
+                                                              .toStringAsFixed(
+                                                                  1),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                              );
+                            },
+                          ),
+                        ),
             ],
           ),
         ),

@@ -11,6 +11,7 @@ class MovieApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'N Movie App',
       debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
       theme: ThemeData(

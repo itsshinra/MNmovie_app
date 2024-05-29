@@ -27,13 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           foregroundColor: Colors.white,
-          title: const Text(
-            'N',
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 238, 0, 0),
-            ),
+          title: const CircleAvatar(
+            backgroundImage: AssetImage('assets/Movie_Fang.png'),
           ),
           actions: [
             IconButton(
@@ -54,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             tabAlignment: TabAlignment.center,
             isScrollable: true,
             unselectedLabelColor: Colors.white.withOpacity(0.3),
-            indicatorColor: const Color.fromARGB(255, 238, 0, 0),
+            indicatorColor: const Color.fromARGB(230, 230, 221, 255),
             labelColor: Colors.white,
             tabs: const [
               Tab(

@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -195,7 +194,6 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
             ],
           ),
 
-          // Rating and Release date
           const SizedBox(height: 32),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -205,7 +203,8 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   side: const BorderSide(
-                    color: Colors.red,
+                    width: 1.5,
+                    color: Color.fromARGB(230, 230, 221, 255),
                   ),
                 ),
                 child: const Text(
@@ -220,21 +219,16 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
               OutlinedButton(
                 onPressed: () {},
                 child: const Icon(
-                  Icons.add,
+                  Iconsax.save_2,
                   color: Colors.white,
                 ),
               ),
               OutlinedButton(
                 onPressed: () {},
-                child: Platform.isAndroid
-                    ? const Icon(
-                        Icons.share,
-                        color: Colors.white,
-                      )
-                    : const Icon(
-                        Icons.ios_share_rounded,
-                        color: Colors.white,
-                      ),
+                child: const Icon(
+                  Iconsax.send_2,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),

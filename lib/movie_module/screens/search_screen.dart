@@ -96,40 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Iconsax.arrow_left_2),
         ),
-        title: SizedBox(
-          height: 50,
-          child: TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide.none),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(color: Colors.grey, width: 1.1),
-              ),
-              hintText: 'Search here...',
-              hintStyle: TextStyle(
-                color: Colors.grey.shade500,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-              filled: true,
-              fillColor: Colors.grey.shade700,
-              prefixIcon: const Icon(Iconsax.search_normal_1),
-              suffixIcon: _searchController.text.isEmpty
-                  ? null
-                  : IconButton(
-                      icon:
-                          const Icon(Iconsax.close_circle, color: Colors.white),
-                      onPressed: () => _searchController.clear(),
-                    ),
-            ),
-            style: const TextStyle(color: Colors.white),
-            onChanged: _onSearchChanged,
-          ),
-        ),
+        title: _buildTextField(),
       ),
       body: InkWell(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -151,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             child: Text(
                               'Movies not found',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 20,
                                 color: Colors.white,
                               ),
                             ),
@@ -159,6 +126,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         )
                       : Expanded(
                           child: ListView.builder(
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
                             itemCount: searchResults.length,
                             itemBuilder: (context, index) {
                               final result = searchResults[index];
@@ -291,6 +260,44 @@ class _SearchScreenState extends State<SearchScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // TextField
+  Widget _buildTextField() {
+    return SizedBox(
+      height: 50,
+      child: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(
+                color: Color.fromARGB(230, 230, 221, 255), width: 1.3),
+          ),
+          hintText: 'Search here...',
+          hintStyle: TextStyle(
+            color: Colors.grey.shade500,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+          filled: true,
+          fillColor: Colors.grey.shade700,
+          prefixIcon: const Icon(Iconsax.search_normal_1),
+          suffixIcon: _searchController.text.isEmpty
+              ? null
+              : IconButton(
+                  icon: const Icon(Iconsax.close_circle, color: Colors.white),
+                  onPressed: () => _searchController.clear(),
+                ),
+        ),
+        style: const TextStyle(color: Colors.white),
+        onChanged: _onSearchChanged,
       ),
     );
   }

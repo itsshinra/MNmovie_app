@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -120,7 +119,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        'Original Langugae: ',
+                        'Original Langugae: N/A ',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -128,7 +127,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        "Release Date: ",
+                        "Release Date: N/A ",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -171,17 +170,21 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                               color: Colors.amber.withOpacity(0.5),
                               borderRadius: BorderRadius.circular(6),
                             ),
-                            child: const Icon(
-                              Iconsax.star1,
-                              color: Colors.amber,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          const Text(
-                            '',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Iconsax.star1,
+                                  color: Colors.amber,
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'N/A',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -203,7 +206,8 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   side: const BorderSide(
-                    color: Colors.red,
+                    width: 1.5,
+                    color: Color.fromARGB(230, 230, 221, 255),
                   ),
                 ),
                 child: const Text(
@@ -218,21 +222,16 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
               OutlinedButton(
                 onPressed: () {},
                 child: const Icon(
-                  Icons.add,
+                  Iconsax.save_2,
                   color: Colors.white,
                 ),
               ),
               OutlinedButton(
                 onPressed: () {},
-                child: Platform.isAndroid
-                    ? const Icon(
-                        Icons.share,
-                        color: Colors.white,
-                      )
-                    : const Icon(
-                        Icons.ios_share_rounded,
-                        color: Colors.white,
-                      ),
+                child: const Icon(
+                  Iconsax.send_2,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
@@ -247,7 +246,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            '',
+            'N/A',
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.start,
           ),

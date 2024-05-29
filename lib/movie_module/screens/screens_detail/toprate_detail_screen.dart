@@ -204,7 +204,8 @@ class _TopRatedDetailPageState extends State<TopRatedDetailPage> {
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   side: const BorderSide(
-                    color: Colors.red,
+                    width: 1.5,
+                    color: Color.fromARGB(230, 230, 221, 255),
                   ),
                 ),
                 child: const Text(

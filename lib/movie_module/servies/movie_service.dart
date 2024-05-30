@@ -3,13 +3,15 @@ import 'package:http/http.dart' as http;
 import 'package:movie_app/movie_module/models/anime_model.dart';
 import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 
+import '../models/cast_movie_model.dart';
 import '../models/movie_model.dart';
 import '../models/top_rated_model.dart';
 import '../models/tv_show_model.dart';
 import '../util/util.dart';
 
-// ignore: constant_identifier_names
-const global_Api = "1f1fbd508b3f8698eb1751a2a4dfe98f";
+// movie apiKey
+const globalApi = "1f1fbd508b3f8698eb1751a2a4dfe98f";
+//anime apiKey
 const clientId = "a202af558073a9bfb0b53e9738bfcabc";
 
 class MovieService {
@@ -17,8 +19,19 @@ class MovieService {
   static Future<MovieModel> getTrendingMovies() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          "https://api.themoviedb.org/3/trending/all/week?api_key=$global_Api"));
+          "https://api.themoviedb.org/3/trending/all/week?api_key=$globalApi"));
       return compute(movieModelFromMap, response.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // Cast Movies Details
+  static Future<CastMovieModel> fetchMovieCast(int movieId) async {
+    try {
+      http.Response response = await http.get(Uri.parse(
+          "https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$globalApi"));
+      return compute(castMovieModelFromMap, response.body);
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -28,7 +41,7 @@ class MovieService {
   static Future<UpcomingMovieModel> getUpcomingMovies() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          "https://api.themoviedb.org/3/movie/upcoming?api_key=$global_Api"));
+          "https://api.themoviedb.org/3/movie/upcoming?api_key=$globalApi"));
       return compute(upcomingMovieModelFromMap, response.body);
     } catch (e) {
       throw Exception(e.toString());
@@ -39,7 +52,7 @@ class MovieService {
   static Future<TopRated> getTopRated() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          "https://api.themoviedb.org/3/movie/top_rated?api_key=$global_Api"));
+          "https://api.themoviedb.org/3/movie/top_rated?api_key=$globalApi"));
       return compute(topRatedFromMap, response.body);
     } catch (e) {
       throw Exception(e.toString());
@@ -50,7 +63,7 @@ class MovieService {
   static Future<MovieModel> getMovies({required int page}) async {
     try {
       http.Response response = await http.get(Uri.parse(
-          "https://api.themoviedb.org/3/trending/movie/day?page=$page&api_key=$global_Api"));
+          "https://api.themoviedb.org/3/trending/movie/day?page=$page&api_key=$globalApi"));
 
       // log("TV Shows Response: ${response.body}");
 
@@ -64,7 +77,7 @@ class MovieService {
   static Future<TvShow> getTvShow({required int page}) async {
     try {
       http.Response response = await http.get(Uri.parse(
-          "https://api.themoviedb.org/3/trending/tv/week?page=$page&api_key=$global_Api"));
+          "https://api.themoviedb.org/3/trending/tv/week?page=$page&api_key=$globalApi"));
 
       // log("TV Shows Response: ${response.body}");
 

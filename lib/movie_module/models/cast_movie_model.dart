@@ -50,7 +50,9 @@ class Cast {
   factory Cast.fromMap(Map<String, dynamic> json) => Cast(
         id: json["id"],
         name: json["name"],
-        profilePath: "https://image.tmdb.org/t/p/w500/" + json["profile_path"],
+        profilePath: json["profile_path"] != null
+            ? "https://image.tmdb.org/t/p/w500/" + json["profile_path"]
+            : 'https://archive.org/download/default_profile/default-avatar.png', // Default profile path
         castId: json["cast_id"],
         character: json["character"],
       );

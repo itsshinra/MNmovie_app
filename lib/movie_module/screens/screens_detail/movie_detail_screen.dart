@@ -3,6 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:movie_app/movie_module/models/cast_movie_model.dart';
+import 'package:movie_app/movie_module/servies/movie_service.dart';
+import 'package:movie_app/movie_module/skeleton/cast_details.dart';
 import '../../models/movie_model.dart';
 
 class MovieDetailPage extends StatefulWidget {
@@ -14,6 +17,14 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
+  late Future<CastMovieModel> futureCast;
+
+  @override
+  void initState() {
+    super.initState();
+    futureCast = MovieService.fetchMovieCast(widget.item.id);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -119,7 +130,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Original Langugae: ${widget.item.originalLanguage}',
+                        'Original Language: ${widget.item.originalLanguage}',
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -254,7 +265,78 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
+          SizedBox(
+            height: 350,
+            child: FutureBuilder<CastMovieModel>(
+              future: futureCast,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                        ' Error Cast Reading: ${snapshot.error.toString()}'),
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  final castList = snapshot.data!.cast!;
+                  return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: castList.length,
+                    itemBuilder: (context, index) {
+                      return buildCastTile(context, castList[index]);
+                    },
+                  );
+                } else {
+                  return const CastDetailsSkeleton();
+                }
+              },
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget buildCastTile(BuildContext context, Cast cast) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.55,
+      child: Card(
+        shadowColor: Colors.transparent,
+        color: Colors.transparent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: 250,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: cast.profilePath != null
+                    ? Image.network(
+                        cast.profilePath.toString(),
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        'https://archive.org/download/default_profile/default-avatar.png'),
+              ),
+            ),
+            Text(
+              cast.name.toString(),
+              style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              'As : ${cast.character.toString()}',
+              style: const TextStyle(fontSize: 18, color: Colors.white),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }

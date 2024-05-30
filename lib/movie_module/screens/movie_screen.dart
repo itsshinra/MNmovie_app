@@ -105,6 +105,7 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget _buildItem(Result item) {
     return InkWell(
       onTap: () {
+        debugPrint('Movie ID: ${item.id}');
         Navigator.push(
           context,
           MaterialPageRoute(

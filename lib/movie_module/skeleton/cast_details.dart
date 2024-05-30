@@ -18,35 +18,42 @@ class _CastDetailsSkeletonState extends State<CastDetailsSkeleton> {
         shrinkWrap: true,
         itemCount: 5,
         itemBuilder: (context, index) {
-          return Card(
-            shadowColor: Colors.transparent,
-            color: Colors.transparent,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  height: 250,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      'https://images-cdn.ubuy.co.id/633feb8bd279163476374ad1-japan-anime-manga-poster-jujutsu.jpg',
-                      fit: BoxFit.cover,
+          return SizedBox(
+            width: MediaQuery.of(context).size.width * 0.4,
+            child: Card(
+              shadowColor: Colors.transparent,
+              color: Colors.transparent,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    height: 150,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        'https://archive.org/download/default_profile/default-avatar.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                const Text(
-                  'Jujutsu Kaisen 1',
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const Text(
-                  'Jujutsu Kaisen 1',
-                  style: TextStyle(fontSize: 16),
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+                  const Text(
+                    'Jujutsu Kaisen 1',
+                    style: TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const Text(
+                    'As',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const Text(
+                    'Jujutsu Kaisen 1',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
           );
         },

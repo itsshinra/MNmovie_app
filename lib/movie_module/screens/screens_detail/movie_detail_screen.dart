@@ -71,6 +71,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          // AppBar
           Row(
             children: [
               ElevatedButton(
@@ -103,6 +104,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             ],
           ),
           const SizedBox(height: 16),
+          // Poster, title, release date, rating
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -163,26 +165,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                             ),
                             child: Row(
                               children: [
-                                RatingBar(
-                                  itemSize: 24,
-                                  allowHalfRating: true,
-                                  initialRating: widget.item.voteAverage / 2,
-                                  itemCount: 1,
-                                  ratingWidget: RatingWidget(
-                                    full: const Icon(
-                                      Icons.star_rounded,
-                                      color: Colors.yellow,
-                                    ),
-                                    half: const Icon(
-                                      Icons.star_half_rounded,
-                                      color: Colors.orange,
-                                    ),
-                                    empty: const Icon(
-                                      Icons.star_border_rounded,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  onRatingUpdate: (double value) {},
+                                const Icon(
+                                  Iconsax.star1,
+                                  color: Colors.amber,
+                                  size: 26,
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
@@ -205,6 +191,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           ),
 
           const SizedBox(height: 32),
+          // buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -266,7 +253,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 350,
+            height: 250,
             child: FutureBuilder<CastMovieModel>(
               future: futureCast,
               builder: (context, snapshot) {
@@ -283,7 +270,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                     scrollDirection: Axis.horizontal,
                     itemCount: castList.length,
                     itemBuilder: (context, index) {
-                      return buildCastTile(context, castList[index]);
+                      return _buildCastTile(context, castList[index]);
                     },
                   );
                 } else {
@@ -297,9 +284,9 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     );
   }
 
-  Widget buildCastTile(BuildContext context, Cast cast) {
+  Widget _buildCastTile(BuildContext context, Cast cast) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.55,
+      width: MediaQuery.of(context).size.width * 0.4,
       child: Card(
         shadowColor: Colors.transparent,
         color: Colors.transparent,
@@ -308,7 +295,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           children: [
             SizedBox(
               width: double.infinity,
-              height: 250,
+              height: 150,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: cast.profilePath != null
@@ -329,9 +316,17 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
             ),
+            const Text(
+              'As',
+              style: TextStyle(fontSize: 16),
+            ),
             Text(
-              'As : ${cast.character.toString()}',
-              style: const TextStyle(fontSize: 18, color: Colors.white),
+              cast.character.toString(),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
             ),

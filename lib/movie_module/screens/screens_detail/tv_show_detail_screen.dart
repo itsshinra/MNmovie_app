@@ -153,26 +153,10 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
                             ),
                             child: Row(
                               children: [
-                                RatingBar(
-                                  itemSize: 24,
-                                  allowHalfRating: true,
-                                  initialRating: widget.item.voteAverage! / 2,
-                                  itemCount: 1,
-                                  ratingWidget: RatingWidget(
-                                    full: const Icon(
-                                      Icons.star_rounded,
-                                      color: Colors.yellow,
-                                    ),
-                                    half: const Icon(
-                                      Icons.star_half_rounded,
-                                      color: Colors.orange,
-                                    ),
-                                    empty: const Icon(
-                                      Icons.star_border_rounded,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  onRatingUpdate: (double value) {},
+                                const Icon(
+                                  Iconsax.star1,
+                                  color: Colors.amber,
+                                  size: 26,
                                 ),
                                 const SizedBox(width: 5),
                                 Text(

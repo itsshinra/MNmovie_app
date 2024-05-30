@@ -109,6 +109,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
   Widget _buildItem(TvShowResult item) {
     return InkWell(
       onTap: () {
+        debugPrint(item.id.toString());
         Navigator.push(
           context,
           MaterialPageRoute(

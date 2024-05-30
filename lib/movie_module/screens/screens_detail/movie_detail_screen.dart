@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:movie_app/movie_module/models/cast_movie_model.dart';
 import 'package:movie_app/movie_module/servies/movie_service.dart';
@@ -17,7 +16,7 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
-  late Future<CastMovieModel> futureCast;
+  late Future<CastModel> futureCast;
 
   @override
   void initState() {
@@ -254,7 +253,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           const SizedBox(height: 8),
           SizedBox(
             height: 250,
-            child: FutureBuilder<CastMovieModel>(
+            child: FutureBuilder<CastModel>(
               future: futureCast,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {

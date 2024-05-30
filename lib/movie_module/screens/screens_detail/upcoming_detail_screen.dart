@@ -17,7 +17,7 @@ class UpcomingDetailPage extends StatefulWidget {
 }
 
 class _UpcomingDetailPageState extends State<UpcomingDetailPage> {
-  late Future<CastMovieModel> futureCast;
+  late Future<CastModel> futureCast;
 
   @override
   void initState() {
@@ -252,7 +252,7 @@ class _UpcomingDetailPageState extends State<UpcomingDetailPage> {
           const SizedBox(height: 8),
           SizedBox(
             height: 250,
-            child: FutureBuilder<CastMovieModel>(
+            child: FutureBuilder<CastModel>(
               future: futureCast,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {

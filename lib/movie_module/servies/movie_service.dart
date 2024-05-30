@@ -27,10 +27,21 @@ class MovieService {
   }
 
   // Cast Movies Details
-  static Future<CastMovieModel> fetchMovieCast(int movieId) async {
+  static Future<CastModel> fetchMovieCast(int movieId) async {
     try {
       http.Response response = await http.get(Uri.parse(
           "https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$globalApi"));
+      return compute(castMovieModelFromMap, response.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // Cast Series Details
+  static Future<CastModel> fetchSeriesCast(int movieId) async {
+    try {
+      http.Response response = await http.get(Uri.parse(
+          "https://api.themoviedb.org/3/tv/$movieId/credits?api_key=$globalApi"));
       return compute(castMovieModelFromMap, response.body);
     } catch (e) {
       throw Exception(e.toString());

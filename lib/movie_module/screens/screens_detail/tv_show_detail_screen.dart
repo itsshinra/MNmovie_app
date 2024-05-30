@@ -1,9 +1,12 @@
 // ignore_for_file: must_be_immutable
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:movie_app/movie_module/models/tv_show_model.dart';
+
+import '../../models/cast_movie_model.dart';
+import '../../servies/movie_service.dart';
+import '../../skeleton/cast_details.dart';
 
 class TvShowDetailPage extends StatefulWidget {
   TvShowResult item;
@@ -14,6 +17,14 @@ class TvShowDetailPage extends StatefulWidget {
 }
 
 class _TvShowDetailPageState extends State<TvShowDetailPage> {
+  late Future<CastModel> futureCast;
+
+  @override
+  void initState() {
+    super.initState();
+    futureCast = MovieService.fetchSeriesCast(widget.item.id!);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -239,7 +250,86 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
+          SizedBox(
+            height: 250,
+            child: FutureBuilder<CastModel>(
+              future: futureCast,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                        ' Error Cast Reading: ${snapshot.error.toString()}'),
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  final castList = snapshot.data!.cast!;
+                  return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: castList.length,
+                    itemBuilder: (context, index) {
+                      return _buildCastTile(context, castList[index]);
+                    },
+                  );
+                } else {
+                  return const CastDetailsSkeleton();
+                }
+              },
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCastTile(BuildContext context, Cast cast) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.4,
+      child: Card(
+        shadowColor: Colors.transparent,
+        color: Colors.transparent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: cast.profilePath != null
+                    ? Image.network(
+                        cast.profilePath.toString(),
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        'https://archive.org/download/default_profile/default-avatar.png'),
+              ),
+            ),
+            Text(
+              cast.name.toString(),
+              style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const Text(
+              'As',
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
+              cast.character.toString(),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }

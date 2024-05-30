@@ -4,21 +4,21 @@
 
 import 'dart:convert';
 
-CastMovieModel castMovieModelFromMap(String str) =>
-    CastMovieModel.fromMap(json.decode(str));
+CastModel castMovieModelFromMap(String str) =>
+    CastModel.fromMap(json.decode(str));
 
-String castMovieModelToMap(CastMovieModel data) => json.encode(data.toMap());
+String castMovieModelToMap(CastModel data) => json.encode(data.toMap());
 
-class CastMovieModel {
+class CastModel {
   int? id;
   List<Cast>? cast;
 
-  CastMovieModel({
+  CastModel({
     this.id,
     this.cast,
   });
 
-  factory CastMovieModel.fromMap(Map<String, dynamic> json) => CastMovieModel(
+  factory CastModel.fromMap(Map<String, dynamic> json) => CastModel(
         id: json["id"],
         cast: json["cast"] == null
             ? []

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:movie_app/movie_module/screens/movie_screen.dart';
+import 'package:movie_app/movie_module/screens/profile_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'screens/for_you.dart';
 import 'screens/search_screen.dart';
@@ -27,8 +28,21 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           foregroundColor: Colors.white,
-          title: const CircleAvatar(
-            backgroundImage: AssetImage('assets/Movie_Fang.png'),
+          title: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  duration: const Duration(milliseconds: 450),
+                  reverseDuration: const Duration(milliseconds: 300),
+                  child: const ProfileScreen(),
+                ),
+              );
+            },
+            child: const CircleAvatar(
+              backgroundImage: AssetImage('assets/Movie_Fang.png'),
+            ),
           ),
           actions: [
             IconButton(

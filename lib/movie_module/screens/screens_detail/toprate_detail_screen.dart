@@ -108,9 +108,12 @@ class _TopRatedDetailPageState extends State<TopRatedDetailPage> {
               Expanded(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    widget.item.posterPath!,
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: widget.item.posterPath!,
+                    child: Image.network(
+                      widget.item.posterPath!,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

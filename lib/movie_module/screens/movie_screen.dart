@@ -121,9 +121,12 @@ class _MovieScreenState extends State<MovieScreen> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                item.posterPath,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: item.posterPath,
+                child: Image.network(
+                  item.posterPath,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Text(

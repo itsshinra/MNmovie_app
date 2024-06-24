@@ -227,9 +227,12 @@ class _ForYouState extends State<ForYou> {
                 height: 300,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    item.posterPath!,
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: item.posterPath!,
+                    child: Image.network(
+                      item.posterPath!,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -285,9 +288,12 @@ class _ForYouState extends State<ForYou> {
                 height: 300,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    item.posterPath!,
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: item.posterPath!,
+                    child: Image.network(
+                      item.posterPath!,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -340,9 +346,12 @@ class _ForYouState extends State<ForYou> {
                 height: 300,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    item.node!.mainPicture!.medium.toString(),
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: item.node!.mainPicture!,
+                    child: Image.network(
+                      item.node!.mainPicture!.medium.toString(),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

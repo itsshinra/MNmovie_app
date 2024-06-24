@@ -98,9 +98,12 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
               Expanded(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    widget.item.node!.mainPicture!.large.toString(),
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: widget.item.node!.mainPicture!,
+                    child: Image.network(
+                      widget.item.node!.mainPicture!.large.toString(),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

@@ -126,13 +126,15 @@ class _SearchScreenState extends State<SearchScreen> {
                         )
                       : Expanded(
                           child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
                             keyboardDismissBehavior:
                                 ScrollViewKeyboardDismissBehavior.onDrag,
                             itemCount: searchResults.length,
                             itemBuilder: (context, index) {
                               final result = searchResults[index];
                               return Card(
-                                color: Colors.grey.shade800,
+                                shadowColor: Colors.white.withOpacity(0.2),
+                                color: Colors.transparent,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 16),
@@ -271,6 +273,7 @@ class _SearchScreenState extends State<SearchScreen> {
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
+          isDense: true,
           floatingLabelBehavior: FloatingLabelBehavior.never,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
@@ -288,15 +291,22 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           filled: true,
           fillColor: Colors.grey.shade700,
-          prefixIcon: const Icon(Iconsax.search_normal_1),
+          prefixIcon: const Icon(
+            Iconsax.search_normal_1,
+            size: 26,
+          ),
           suffixIcon: _searchController.text.isEmpty
               ? null
               : IconButton(
-                  icon: const Icon(Iconsax.close_circle, color: Colors.white),
+                  icon: const Icon(
+                    Iconsax.close_circle,
+                    color: Colors.white,
+                    size: 26,
+                  ),
                   onPressed: () => _searchController.clear(),
                 ),
         ),
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white, fontSize: 18),
         onChanged: _onSearchChanged,
       ),
     );

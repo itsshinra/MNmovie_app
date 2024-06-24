@@ -71,163 +71,13 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         padding: const EdgeInsets.all(16),
         children: [
           // AppBar
-          Row(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(8),
-                  backgroundColor: Colors.black.withOpacity(0.6),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: const Icon(
-                  Iconsax.arrow_left_2,
-                  color: Colors.white,
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  widget.item.titleOrName,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
+          _buildAppBar(),
           const SizedBox(height: 16),
           // Poster, title, release date, rating
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    widget.item.posterPath,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Original Title: ${widget.item.originalTitle}',
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Original Language: ${widget.item.originalLanguage}',
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        "Release Date: ${widget.item.dateOnly}",
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const Text(
-                            'Rating: ',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 6, right: 6),
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Colors.amber.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Iconsax.star1,
-                                  color: Colors.amber,
-                                  size: 26,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  widget.item.voteAverage.toStringAsFixed(1),
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-
+          _buildDetail(),
           const SizedBox(height: 32),
           // buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  side: const BorderSide(
-                    width: 1.5,
-                    color: Color.fromARGB(230, 230, 221, 255),
-                  ),
-                ),
-                child: const Text(
-                  'Watch Trailer',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              OutlinedButton(
-                onPressed: () {},
-                child: const Icon(
-                  Iconsax.save_2,
-                  color: Colors.white,
-                ),
-              ),
-              OutlinedButton(
-                onPressed: () {},
-                child: const Icon(
-                  Iconsax.send_2,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
+          _buildButtonTrailer(),
           const SizedBox(height: 8),
           const Divider(),
 
@@ -280,6 +130,167 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Row _buildButtonTrailer() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        OutlinedButton(
+          onPressed: () {},
+          style: OutlinedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            side: const BorderSide(
+              width: 1.5,
+              color: Color.fromARGB(230, 230, 221, 255),
+            ),
+          ),
+          child: const Text(
+            'Watch Trailer',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        OutlinedButton(
+          onPressed: () {},
+          child: const Icon(
+            Iconsax.save_2,
+            color: Colors.white,
+          ),
+        ),
+        OutlinedButton(
+          onPressed: () {},
+          child: const Icon(
+            Iconsax.send_2,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildDetail() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.network(
+              widget.item.posterPath,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Original Title: ${widget.item.originalTitle}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Original Language: ${widget.item.originalLanguage}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Release Date: ${widget.item.dateOnly}",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Text(
+                      'Rating: ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 6, right: 6),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.amber.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Iconsax.star1,
+                            color: Colors.amber,
+                            size: 26,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            widget.item.voteAverage.toStringAsFixed(1),
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildAppBar() {
+    return Row(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(8),
+            backgroundColor: Colors.black.withOpacity(0.6),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: const Icon(
+            Iconsax.arrow_left_2,
+            color: Colors.white,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            widget.item.titleOrName,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 

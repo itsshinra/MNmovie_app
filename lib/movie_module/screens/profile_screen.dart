@@ -44,6 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const Text(
               'Sovanmakara',
               style: TextStyle(
+                color: Color(0xFFe6e6dd),
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
               ),
@@ -135,11 +136,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                     color: Colors.grey.withOpacity(0.3),
                     child: ListTile(
-                      onTap: () {},
-                      leading: const Icon(
-                        Iconsax.moon5,
-                        color: Color(0xFFe6e6dd),
-                      ),
+                      leading: _isOn
+                          ? const Icon(
+                              Iconsax.moon5,
+                              color: Color(0xFFe6e6dd),
+                            )
+                          : const Icon(
+                              Iconsax.sun_15,
+                              color: Color(0xFFe6e6dd),
+                            ),
                       title: const Text('Dark Mode',
                           style: TextStyle(color: Color(0xFFe6e6dd))),
                       trailing: Switch(
@@ -178,12 +183,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         icon: const Icon(
           Icons.close_rounded,
           size: 32,
+          color: Color(0xFFe6e6dd),
         ),
       ),
       title: const Text(
         'Profile',
         style: TextStyle(
           fontWeight: FontWeight.w600,
+          color: Color(0xFFe6e6dd),
         ),
       ),
     );

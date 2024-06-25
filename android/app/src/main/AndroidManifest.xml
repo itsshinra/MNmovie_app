@@ -2,7 +2,7 @@
     <application
         android:label="MovieFang"
         android:name="${applicationName}"
-        android:icon="@mipmap/move_fang">
+        android:icon="@mipmap/ic_launcher_round">
         <activity
             android:name=".MainActivity"
             android:exported="true"

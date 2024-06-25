@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -21,12 +22,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Align(
       alignment: Alignment.center,
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             const SizedBox(height: 24),
-            const CircleAvatar(
-              backgroundImage: AssetImage('assets/Movie_Fang.png'),
-              radius: 70,
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: const Color(0xFFe6e6dd),
+                  width: 3,
+                ),
+              ),
+              child: const CircleAvatar(
+                backgroundColor: Colors.black,
+                backgroundImage: AssetImage('assets/logos/me.1.JPG'),
+                radius: 65,
+              ),
             ),
             const SizedBox(height: 8),
             const Text(
@@ -38,8 +50,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 32),
             SizedBox(
-              height: MediaQuery.sizeOf(context).height,
+              height: 500,
               child: ListView(
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   Card(
                     margin:
@@ -47,9 +60,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey.withOpacity(0.3),
                     child: ListTile(
                       onTap: () {},
-                      leading: const Icon(Icons.person_2_rounded),
-                      title: const Text('My Profile'),
-                      trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                      leading: const Icon(
+                        Iconsax.profile_circle,
+                        color: Color(0xFFe6e6dd),
+                      ),
+                      title: const Text(
+                        'My Profile',
+                        style: TextStyle(color: Color(0xFFe6e6dd)),
+                      ),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Color(0xFFe6e6dd),
+                      ),
                     ),
                   ),
                   Card(
@@ -58,9 +80,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey.withOpacity(0.3),
                     child: ListTile(
                       onTap: () {},
-                      leading: const Icon(Icons.lock_outline_rounded),
-                      title: const Text('Security'),
-                      trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                      leading: const Icon(
+                        Iconsax.lock,
+                        color: Color(0xFFe6e6dd),
+                      ),
+                      title: const Text(
+                        'Security',
+                        style: TextStyle(color: Color(0xFFe6e6dd)),
+                      ),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Color(0xFFe6e6dd),
+                      ),
                     ),
                   ),
                   Card(
@@ -69,9 +100,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey.withOpacity(0.3),
                     child: ListTile(
                       onTap: () {},
-                      leading: const Icon(Icons.language_rounded),
-                      title: const Text('Language'),
-                      trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                      leading: const Icon(
+                        Iconsax.global,
+                        color: Color(0xFFe6e6dd),
+                      ),
+                      title: const Text('Language',
+                          style: TextStyle(color: Color(0xFFe6e6dd))),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Color(0xFFe6e6dd),
+                      ),
                     ),
                   ),
                   Card(
@@ -80,9 +118,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey.withOpacity(0.3),
                     child: ListTile(
                       onTap: () {},
-                      leading: const Icon(Icons.call_outlined),
-                      title: const Text('Contact Us'),
-                      trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                      leading: const Icon(
+                        Iconsax.call,
+                        color: Color(0xFFe6e6dd),
+                      ),
+                      title: const Text('Contact Us',
+                          style: TextStyle(color: Color(0xFFe6e6dd))),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Color(0xFFe6e6dd),
+                      ),
                     ),
                   ),
                   Card(
@@ -91,8 +136,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey.withOpacity(0.3),
                     child: ListTile(
                       onTap: () {},
-                      leading: const Icon(Icons.dark_mode_rounded),
-                      title: const Text('Dark Mode'),
+                      leading: const Icon(
+                        Iconsax.moon5,
+                        color: Color(0xFFe6e6dd),
+                      ),
+                      title: const Text('Dark Mode',
+                          style: TextStyle(color: Color(0xFFe6e6dd))),
                       trailing: Switch(
                         onChanged: (bool isOn) {
                           setState(() {
@@ -107,6 +156,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
+            const Text('@MovieFang 2024'),
+            const Text(
+              'Develop by Sovanmakara',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            )
           ],
         ),
       ),
@@ -115,6 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       leading: IconButton(
         onPressed: () => Navigator.pop(context),

@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           foregroundColor: Colors.white,
-          title: GestureDetector(
+          leading: GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
@@ -40,8 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-            child: const CircleAvatar(
-              backgroundImage: AssetImage('assets/Movie_Fang.png'),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xFFe6e6dd),
+                    width: 2,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  backgroundImage: AssetImage('assets/logos/me.1.JPG'),
+                ),
+              ),
             ),
           ),
           actions: [
@@ -58,12 +70,16 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: const Icon(Iconsax.search_normal_1),
             ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Iconsax.save_2),
+            ),
           ],
           bottom: TabBar(
             tabAlignment: TabAlignment.center,
             isScrollable: true,
             unselectedLabelColor: Colors.white.withOpacity(0.3),
-            indicatorColor: const Color.fromARGB(230, 230, 221, 255),
+            indicatorColor: const Color(0xFFe6e6dd),
             labelColor: Colors.white,
             tabs: const [
               Tab(

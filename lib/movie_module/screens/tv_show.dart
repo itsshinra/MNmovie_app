@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
 import '../models/tv_show_model.dart';
@@ -127,8 +128,8 @@ class _TvShowScreenState extends State<TvShowScreen> {
               borderRadius: BorderRadius.circular(20),
               child: Hero(
                 tag: item.posterPath!,
-                child: Image.network(
-                  item.posterPath!,
+                child: CachedNetworkImage(
+                  imageUrl: item.posterPath!,
                   fit: BoxFit.cover,
                 ),
               ),

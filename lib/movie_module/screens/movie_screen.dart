@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../models/movie_model.dart';
 import '../servies/movie_service.dart';
@@ -123,8 +124,8 @@ class _MovieScreenState extends State<MovieScreen> {
               borderRadius: BorderRadius.circular(20),
               child: Hero(
                 tag: item.posterPath,
-                child: Image.network(
-                  item.posterPath,
+                child: CachedNetworkImage(
+                  imageUrl: item.posterPath,
                   fit: BoxFit.cover,
                 ),
               ),

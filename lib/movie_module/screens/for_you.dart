@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/movie_module/models/anime_model.dart';
@@ -159,30 +160,33 @@ class _ForYouState extends State<ForYou> {
               height: 500,
               enlargeCenterPage: true,
             ),
-            items: snapshot.data!.results.map((movie) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MovieDetailPage(movie),
+            items: snapshot.data!.results.map(
+              (movie) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MovieDetailPage(movie),
+                          ),
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: CachedNetworkImage(
+                          imageUrl: movie.posterPath,
+                          fit: BoxFit.cover,
+                          // placeholder: (context, url) =>
+                          //     const TrendingSkeleton(),
                         ),
-                      );
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        movie.posterPath,
-                        fit: BoxFit.cover,
-                        width: 1000,
                       ),
-                    ),
-                  );
-                },
-              );
-            }).toList(),
+                    );
+                  },
+                );
+              },
+            ).toList(),
           );
         } else {
           return const TrendingSkeleton();
@@ -229,8 +233,8 @@ class _ForYouState extends State<ForYou> {
                   borderRadius: BorderRadius.circular(20),
                   child: Hero(
                     tag: item.posterPath!,
-                    child: Image.network(
-                      item.posterPath!,
+                    child: CachedNetworkImage(
+                      imageUrl: item.posterPath!,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -290,8 +294,8 @@ class _ForYouState extends State<ForYou> {
                   borderRadius: BorderRadius.circular(20),
                   child: Hero(
                     tag: item.posterPath!,
-                    child: Image.network(
-                      item.posterPath!,
+                    child: CachedNetworkImage(
+                      imageUrl: item.posterPath!,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -348,8 +352,8 @@ class _ForYouState extends State<ForYou> {
                   borderRadius: BorderRadius.circular(20),
                   child: Hero(
                     tag: item.node!.mainPicture!,
-                    child: Image.network(
-                      item.node!.mainPicture!.medium.toString(),
+                    child: CachedNetworkImage(
+                      imageUrl: item.node!.mainPicture!.large.toString(),
                       fit: BoxFit.cover,
                     ),
                   ),

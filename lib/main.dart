@@ -15,6 +15,7 @@ class MovieApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
       theme: ThemeData(
+        fontFamily: 'Poppins',
         brightness: Brightness.dark,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,

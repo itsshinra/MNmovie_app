@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:movie_app/movie_module/models/anime_model.dart';
@@ -100,8 +101,8 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                   borderRadius: BorderRadius.circular(20),
                   child: Hero(
                     tag: widget.item.node!.mainPicture!,
-                    child: Image.network(
-                      widget.item.node!.mainPicture!.large.toString(),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.item.node!.mainPicture!.large.toString(),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -146,26 +147,6 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          // RatingBar(
-                          //   itemSize: 24,
-                          //   allowHalfRating: true,
-                          //   itemCount: 1,
-                          //   ratingWidget: RatingWidget(
-                          //     full: const Icon(
-                          //       Icons.star_rounded,
-                          //       color: Colors.yellow,
-                          //     ),
-                          //     half: const Icon(
-                          //       Icons.star_half_rounded,
-                          //       color: Colors.orange,
-                          //     ),
-                          //     empty: const Icon(
-                          //       Icons.star_border_rounded,
-                          //       color: Colors.white,
-                          //     ),
-                          //   ),
-                          //   onRatingUpdate: (double value) {},
-                          // ),
                           Container(
                             padding: const EdgeInsets.only(left: 6, right: 11),
                             height: 30,
@@ -210,7 +191,7 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                   backgroundColor: Colors.transparent,
                   side: const BorderSide(
                     width: 1.5,
-                    color: Color.fromARGB(230, 230, 221, 255),
+                    color: Color(0xFFe6e6dd),
                   ),
                 ),
                 child: const Text(

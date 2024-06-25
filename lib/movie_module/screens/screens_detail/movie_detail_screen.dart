@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:movie_app/movie_module/models/cast_movie_model.dart';
@@ -143,7 +144,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             backgroundColor: Colors.transparent,
             side: const BorderSide(
               width: 1.5,
-              color: Color.fromARGB(230, 230, 221, 255),
+              color: Color(0xFFe6e6dd),
             ),
           ),
           child: const Text(
@@ -182,8 +183,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             borderRadius: BorderRadius.circular(20),
             child: Hero(
               tag: widget.item.posterPath,
-              child: Image.network(
-                widget.item.posterPath,
+              child: CachedNetworkImage(
+                imageUrl: widget.item.posterPath,
                 fit: BoxFit.cover,
               ),
             ),
@@ -312,12 +313,14 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: cast.profilePath != null
-                    ? Image.network(
-                        cast.profilePath.toString(),
+                    ? CachedNetworkImage(
+                        imageUrl: cast.profilePath.toString(),
                         fit: BoxFit.cover,
                       )
-                    : Image.network(
-                        'https://archive.org/download/default_profile/default-avatar.png'),
+                    : CachedNetworkImage(
+                        imageUrl:
+                            'https://archive.org/download/default_profile/default-avatar.png',
+                      ),
               ),
             ),
             Text(

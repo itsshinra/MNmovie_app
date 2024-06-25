@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:http/http.dart' as http;
@@ -170,8 +171,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        'https://image.tmdb.org/t/p/w92${result['poster_path']}',
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            'https://image.tmdb.org/t/p/w500${result['poster_path']}',
                         width: 100,
                         height: 150,
                         fit: BoxFit.cover,
@@ -271,7 +273,9 @@ class _SearchScreenState extends State<SearchScreen> {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: const BorderSide(
-                color: Color.fromARGB(230, 230, 221, 255), width: 1.3),
+              color: Color(0xFFe6e6dd),
+              width: 1.3,
+            ),
           ),
           hintText: 'Search here...',
           hintStyle: TextStyle(
@@ -296,6 +300,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   onPressed: () => _searchController.clear(),
                 ),
         ),
+        cursorColor: Color(0xFFe6e6dd),
         style: const TextStyle(color: Colors.white, fontSize: 18),
         onChanged: _onSearchChanged,
       ),

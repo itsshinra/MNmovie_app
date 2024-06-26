@@ -1,22 +1,21 @@
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
-import '../models/tv_show_model.dart';
-import '../servies/movie_service.dart';
-import '../skeleton/movie_skeloton.dart';
+import '../../models/movie_model.dart';
+import '../../servies/movie_service.dart';
+import '../../skeleton/movie_skeloton.dart';
+import '../screens_detail/movie_detail_screen.dart';
 
-class TvShowScreen extends StatefulWidget {
-  const TvShowScreen({super.key});
+class MovieScreen extends StatefulWidget {
+  const MovieScreen({super.key});
 
   @override
-  State<TvShowScreen> createState() => _TvShowScreenState();
+  State<MovieScreen> createState() => _MovieScreenState();
 }
 
-class _TvShowScreenState extends State<TvShowScreen> {
+class _MovieScreenState extends State<MovieScreen> {
   // ignore: prefer_final_fields
-  List<TvShowResult> _movies = [];
+  List<Result> _movies = [];
   int _currentPage = 1;
   bool _isLoading = false;
   bool _hasMore = true;
@@ -50,11 +49,11 @@ class _TvShowScreenState extends State<TvShowScreen> {
     });
 
     try {
-      TvShow movieModel = await MovieService.getTvShow(page: _currentPage);
+      MovieModel newMovies = await MovieService.getMovies(page: _currentPage);
       setState(() {
         _currentPage++;
-        _movies.addAll(movieModel.results!);
-        _hasMore = movieModel.results!.isNotEmpty;
+        _movies.addAll(newMovies.results);
+        _hasMore = newMovies.results.isNotEmpty;
       });
     } catch (e) {
       log("Error fetching movies: $e");
@@ -75,7 +74,6 @@ class _TvShowScreenState extends State<TvShowScreen> {
       child: _isLoading && _movies.isEmpty
           ? const MovieSkeleton()
           : RefreshIndicator(
-              triggerMode: RefreshIndicatorTriggerMode.onEdge,
               color: Colors.black,
               backgroundColor: Colors.white,
               onRefresh: () async {
@@ -87,8 +85,8 @@ class _TvShowScreenState extends State<TvShowScreen> {
                 await _fetchMovies();
               },
               child: GridView.builder(
-                controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
+                controller: _scrollController,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 1 / 1.7,
@@ -96,9 +94,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
                 itemCount: _movies.length + (_hasMore ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index == _movies.length) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   }
                   return _buildItem(_movies[index]);
                 },
@@ -107,14 +103,14 @@ class _TvShowScreenState extends State<TvShowScreen> {
     );
   }
 
-  Widget _buildItem(TvShowResult item) {
+  Widget _buildItem(Result item) {
     return InkWell(
       onTap: () {
-        debugPrint(item.id.toString());
+        debugPrint('Movie ID: ${item.id}');
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TvShowDetailPage(item),
+            builder: (context) => MovieDetailPage(item),
           ),
         );
       },
@@ -127,15 +123,15 @@ class _TvShowScreenState extends State<TvShowScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Hero(
-                tag: item.posterPath!,
+                tag: item.posterPath,
                 child: CachedNetworkImage(
-                  imageUrl: item.posterPath!,
+                  imageUrl: item.posterPath,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             Text(
-              item.name!,
+              item.titleOrName,
               style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white,

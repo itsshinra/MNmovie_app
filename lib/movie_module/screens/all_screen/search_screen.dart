@@ -8,7 +8,7 @@ import 'package:movie_app/movie_module/models/movie_model.dart';
 import 'package:movie_app/movie_module/models/tv_show_model.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
-import '../util/const.dart';
+import '../../util/const.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -147,7 +147,7 @@ class _SearchScreenState extends State<SearchScreen> {
         itemBuilder: (context, index) {
           final result = searchResults[index];
           return Card(
-            shadowColor: Colors.white.withOpacity(0.2),
+            shadowColor: Colors.white.withOpacity(0.11),
             color: Colors.transparent,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

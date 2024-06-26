@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:movie_app/movie_module/screens/movie_screen.dart';
-import 'package:movie_app/movie_module/screens/profile_screen.dart';
+import 'package:movie_app/movie_module/screens/all_screen/movie_screen.dart';
+import 'package:movie_app/movie_module/screens/all_screen/profile_screen.dart';
+import 'package:movie_app/movie_module/screens/all_screen/wistlist_screen.dart';
 import 'package:page_transition/page_transition.dart';
-import 'screens/for_you.dart';
-import 'screens/search_screen.dart';
-import 'screens/tv_show.dart';
+import 'screens/all_screen/for_you.dart';
+import 'screens/all_screen/search_screen.dart';
+import 'screens/all_screen/tv_show.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -71,7 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Iconsax.search_normal_1),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.topToBottom,
+                    duration: const Duration(milliseconds: 450),
+                    reverseDuration: const Duration(milliseconds: 300),
+                    child: const MyListScreen(),
+                  ),
+                );
+              },
               icon: const Icon(Iconsax.save_2),
             ),
           ],

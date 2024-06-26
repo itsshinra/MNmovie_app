@@ -10,8 +10,8 @@ import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_scree
 import 'package:movie_app/movie_module/screens/screens_detail/toprate_detail_screen.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/upcoming_detail_screen.dart';
 import 'package:movie_app/movie_module/servies/movie_service.dart';
-import '../skeleton/for_you_skeleton.dart';
-import '../skeleton/trending_skeleton.dart';
+import '../../skeleton/for_you_skeleton.dart';
+import '../../skeleton/trending_skeleton.dart';
 
 class ForYou extends StatefulWidget {
   const ForYou({super.key});

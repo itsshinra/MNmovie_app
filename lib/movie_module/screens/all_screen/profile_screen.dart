@@ -13,6 +13,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
     );
@@ -58,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Card(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                    color: Colors.grey.withOpacity(0.3),
+                    color: Colors.white.withOpacity(0.1),
                     child: ListTile(
                       onTap: () {},
                       leading: const Icon(
@@ -78,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Card(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                    color: Colors.grey.withOpacity(0.3),
+                    color: Colors.white.withOpacity(0.1),
                     child: ListTile(
                       onTap: () {},
                       leading: const Icon(
@@ -98,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Card(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                    color: Colors.grey.withOpacity(0.3),
+                    color: Colors.white.withOpacity(0.1),
                     child: ListTile(
                       onTap: () {},
                       leading: const Icon(
@@ -116,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Card(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                    color: Colors.grey.withOpacity(0.3),
+                    color: Colors.white.withOpacity(0.1),
                     child: ListTile(
                       onTap: () {},
                       leading: const Icon(
@@ -134,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Card(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                    color: Colors.grey.withOpacity(0.3),
+                    color: Colors.white.withOpacity(0.1),
                     child: ListTile(
                       leading: _isOn
                           ? const Icon(

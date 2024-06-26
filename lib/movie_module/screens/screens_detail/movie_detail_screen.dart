@@ -116,6 +116,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   final castList = snapshot.data!.cast!;
                   return ListView.builder(
+                    shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: castList.length,
@@ -300,7 +301,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   Widget _buildCastTile(BuildContext context, Cast cast) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.4,
+      width: 150,
+      height: 300,
       child: Card(
         shadowColor: Colors.transparent,
         color: Colors.transparent,

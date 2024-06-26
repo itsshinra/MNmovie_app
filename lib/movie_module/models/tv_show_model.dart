@@ -2,6 +2,8 @@
 //
 //     final tvShow = tvShowFromMap(jsonString);
 
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:convert';
 
 TvShow tvShowFromMap(String str) => TvShow.fromMap(json.decode(str));

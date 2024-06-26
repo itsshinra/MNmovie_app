@@ -2,6 +2,8 @@
 //
 //     final topRated = topRatedFromMap(jsonString);
 
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:convert';
 
 TopRated topRatedFromMap(String str) => TopRated.fromMap(json.decode(str));

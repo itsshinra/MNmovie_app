@@ -51,6 +51,7 @@ class Cast {
         id: json["id"],
         name: json["name"],
         profilePath: json["profile_path"] != null
+            // ignore: prefer_interpolation_to_compose_strings
             ? "https://image.tmdb.org/t/p/w500/" + json["profile_path"]
             : 'https://archive.org/download/default_profile/default-avatar.png', // Default profile path
         castId: json["cast_id"],

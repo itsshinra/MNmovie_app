@@ -19,7 +19,8 @@ class _CastDetailsSkeletonState extends State<CastDetailsSkeleton> {
         itemCount: 5,
         itemBuilder: (context, index) {
           return SizedBox(
-            width: MediaQuery.of(context).size.width * 0.4,
+            width: 150,
+            height: 300,
             child: Card(
               shadowColor: Colors.transparent,
               color: Colors.transparent,

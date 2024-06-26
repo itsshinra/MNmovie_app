@@ -288,7 +288,8 @@ class _UpcomingDetailPageState extends State<UpcomingDetailPage> {
 
   Widget _buildCastTile(BuildContext context, Cast cast) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.4,
+      width: 150,
+      height: 300,
       child: Card(
         shadowColor: Colors.transparent,
         color: Colors.transparent,

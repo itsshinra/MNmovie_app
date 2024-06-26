@@ -300,7 +300,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   onPressed: () => _searchController.clear(),
                 ),
         ),
-        cursorColor: Color(0xFFe6e6dd),
+        cursorColor: const Color(0xFFe6e6dd),
         style: const TextStyle(color: Colors.white, fontSize: 18),
         onChanged: _onSearchChanged,
       ),

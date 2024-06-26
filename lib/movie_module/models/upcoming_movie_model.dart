@@ -2,6 +2,8 @@
 //
 //     final upcomingMovieModel = upcomingMovieModelFromMap(jsonString);
 
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:convert';
 
 UpcomingMovieModel upcomingMovieModelFromMap(String str) =>

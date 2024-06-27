@@ -178,8 +178,6 @@ class _ForYouState extends State<ForYou> {
                         child: CachedNetworkImage(
                           imageUrl: movie.posterPath,
                           fit: BoxFit.cover,
-                          // placeholder: (context, url) =>
-                          //     const TrendingSkeleton(),
                         ),
                       ),
                     );
@@ -211,7 +209,7 @@ class _ForYouState extends State<ForYou> {
 
   Widget _buildUpcomingItem(UpcomingResult item) {
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width * 0.55,
+      width: 250,
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -243,7 +241,7 @@ class _ForYouState extends State<ForYou> {
               Text(
                 item.title.toString(),
                 style: const TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
@@ -272,7 +270,7 @@ class _ForYouState extends State<ForYou> {
 
   Widget _buildTopRatedItem(TopRatedResult item) {
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width * 0.55,
+      width: 250,
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -303,7 +301,7 @@ class _ForYouState extends State<ForYou> {
               ),
               Text(
                 item.title.toString(),
-                style: const TextStyle(fontSize: 20, color: Colors.white),
+                style: const TextStyle(fontSize: 18, color: Colors.white),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -330,7 +328,7 @@ class _ForYouState extends State<ForYou> {
 
   Widget _buildAnimeItem(Datum item) {
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width * 0.55,
+      width: 250,
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -361,7 +359,7 @@ class _ForYouState extends State<ForYou> {
               ),
               Text(
                 item.node!.title.toString(),
-                style: const TextStyle(fontSize: 20, color: Colors.white),
+                style: const TextStyle(fontSize: 18, color: Colors.white),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),

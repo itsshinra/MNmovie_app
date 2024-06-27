@@ -133,7 +133,7 @@ class _MovieScreenState extends State<MovieScreen> {
             Text(
               item.titleOrName,
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,

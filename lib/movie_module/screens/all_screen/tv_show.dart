@@ -137,7 +137,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
             Text(
               item.name!,
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,

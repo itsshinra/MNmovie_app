@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:movie_app/movie_module/home_screen.dart';
 
 void main() {
@@ -10,46 +11,10 @@ class MovieApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const GetMaterialApp(
       title: 'Movie Fang',
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-        brightness: Brightness.dark,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.black,
-        ),
-        textTheme: const TextTheme(
-          headlineLarge: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-          bodyMedium: TextStyle(
-            fontSize: 14,
-          ),
-          bodyLarge: TextStyle(
-            fontSize: 20,
-          ),
-        ),
-      ),
-      // darkTheme: ThemeData(
-      //   brightness: Brightness.dark,
-      //   fontFamily: 'Poppins',
-      //   appBarTheme: const AppBarTheme(
-      //     backgroundColor: Colors.black,
-      //   ),
-      //   textTheme: const TextTheme(
-      //     headlineLarge: TextStyle(
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //     bodyMedium: TextStyle(
-      //       fontSize: 14,
-      //     ),
-      //     bodyLarge: TextStyle(
-      //       fontSize: 20,
-      //     ),
-      //   ),
-      // ),
+      home: HomeScreen(),
     );
   }
 }

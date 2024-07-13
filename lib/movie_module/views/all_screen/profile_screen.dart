@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:movie_app/movie_module/controllers/theme_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -9,11 +11,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _isOn = true;
+  final controller = Get.put(ThemeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
     );
@@ -45,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const Text(
               'Sovanmakara',
               style: TextStyle(
-                color: Color(0xFFe6e6dd),
+                // color: Color(0xFFe6e6dd),
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
               ),
@@ -64,15 +66,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () {},
                       leading: const Icon(
                         Iconsax.profile_circle,
-                        color: Color(0xFFe6e6dd),
+                        // color: Color(0xFFe6e6dd),
                       ),
                       title: const Text(
                         'My Profile',
-                        style: TextStyle(color: Color(0xFFe6e6dd)),
+                        // style: TextStyle(color: Color(0xFFe6e6dd)),
                       ),
                       trailing: const Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: Color(0xFFe6e6dd),
+                        // color: Color(0xFFe6e6dd),
                       ),
                     ),
                   ),
@@ -84,15 +86,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () {},
                       leading: const Icon(
                         Iconsax.lock,
-                        color: Color(0xFFe6e6dd),
+                        // color: Color(0xFFe6e6dd),
                       ),
                       title: const Text(
                         'Security',
-                        style: TextStyle(color: Color(0xFFe6e6dd)),
+                        // style: TextStyle(color: Color(0xFFe6e6dd)),
                       ),
                       trailing: const Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: Color(0xFFe6e6dd),
+                        // color: Color(0xFFe6e6dd),
                       ),
                     ),
                   ),
@@ -104,13 +106,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () {},
                       leading: const Icon(
                         Iconsax.global,
-                        color: Color(0xFFe6e6dd),
+                        // color: Color(0xFFe6e6dd),
                       ),
-                      title: const Text('Language',
-                          style: TextStyle(color: Color(0xFFe6e6dd))),
+                      title: const Text(
+                        'Language',
+                        // style: TextStyle(color: Color(0xFFe6e6dd)),
+                      ),
                       trailing: const Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: Color(0xFFe6e6dd),
+                        // color: Color(0xFFe6e6dd),
                       ),
                     ),
                   ),
@@ -122,13 +126,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () {},
                       leading: const Icon(
                         Iconsax.call,
-                        color: Color(0xFFe6e6dd),
+                        // color: Color(0xFFe6e6dd),
                       ),
-                      title: const Text('Contact Us',
-                          style: TextStyle(color: Color(0xFFe6e6dd))),
+                      title: const Text(
+                        'Contact Us',
+                        // style: TextStyle(color: Color(0xFFe6e6dd)),
+                      ),
                       trailing: const Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: Color(0xFFe6e6dd),
+                        // color: Color(0xFFe6e6dd),
                       ),
                     ),
                   ),
@@ -137,24 +143,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                     color: Colors.white.withOpacity(0.1),
                     child: ListTile(
-                      leading: _isOn
+                      leading: controller.isDarkMode.value
                           ? const Icon(
                               Iconsax.moon5,
-                              color: Color(0xFFe6e6dd),
+                              // color: Color(0xFFe6e6dd),
                             )
                           : const Icon(
                               Iconsax.sun_15,
-                              color: Color(0xFFe6e6dd),
+                              // color: Color(0xFFe6e6dd),
                             ),
-                      title: const Text('Dark Mode',
-                          style: TextStyle(color: Color(0xFFe6e6dd))),
+                      title: controller.isDarkMode.value
+                          ? const Text(
+                              'Dark Mode',
+                            )
+                          : const Text(
+                              'Light Mode',
+                            ),
                       trailing: Switch(
-                        onChanged: (bool isOn) {
+                        onChanged: (value) {
                           setState(() {
-                            _isOn = isOn;
+                            controller.changeTheme(value);
                           });
                         },
-                        value: _isOn,
+                        value: controller.isDarkMode.value,
                         activeColor: Colors.white,
                       ),
                     ),
@@ -184,14 +195,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         icon: const Icon(
           Icons.close_rounded,
           size: 32,
-          color: Color(0xFFe6e6dd),
+          // color: Color(0xFFe6e6dd),
         ),
       ),
       title: const Text(
         'Profile',
         style: TextStyle(
           fontWeight: FontWeight.w600,
-          color: Color(0xFFe6e6dd),
+          // color: Color(0xFFe6e6dd),
         ),
       ),
     );

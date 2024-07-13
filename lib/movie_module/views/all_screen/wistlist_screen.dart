@@ -14,7 +14,7 @@ class _MyListScreenState extends State<MyListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       appBar: _buildAppBar(context),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movie_app/movie_module/controllers/foryou_controller.dart';
+import 'package:movie_app/movie_module/controllers/theme_controller.dart';
 import 'package:movie_app/movie_module/models/anime_model.dart';
 import 'package:movie_app/movie_module/models/movie_model.dart';
 import 'package:movie_app/movie_module/models/top_rated_model.dart';
@@ -23,6 +24,7 @@ class ForYou extends StatefulWidget {
 
 class _ForYouState extends State<ForYou> {
   final _controller = Get.put(ForYouController());
+  final controller = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +37,25 @@ class _ForYouState extends State<ForYou> {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(16),
           children: [
-            const Text(
+            Text(
               'Trending',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color:
+                    controller.isDarkMode.value ? Colors.white : Colors.black,
               ),
             ),
             const SizedBox(height: 16),
             _buildTrending(),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Upcoming',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
+                color:
+                    controller.isDarkMode.value ? Colors.white : Colors.black,
               ),
             ),
             const SizedBox(height: 16),
@@ -71,11 +77,13 @@ class _ForYouState extends State<ForYou> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'TopRated',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
+                color:
+                    controller.isDarkMode.value ? Colors.white : Colors.black,
               ),
             ),
             const SizedBox(height: 16),
@@ -97,11 +105,13 @@ class _ForYouState extends State<ForYou> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Anime',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
+                color:
+                    controller.isDarkMode.value ? Colors.white : Colors.black,
               ),
             ),
             const SizedBox(height: 16),
@@ -201,7 +211,8 @@ class _ForYouState extends State<ForYou> {
         },
         child: Card(
           margin: const EdgeInsets.all(8),
-          color: Colors.transparent,
+          color:
+              controller.isDarkMode.value ? Colors.transparent : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -221,9 +232,10 @@ class _ForYouState extends State<ForYou> {
               ),
               Text(
                 item.title.toString(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white,
+                  color:
+                      controller.isDarkMode.value ? Colors.white : Colors.black,
                 ),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
@@ -264,7 +276,8 @@ class _ForYouState extends State<ForYou> {
         },
         child: Card(
           margin: const EdgeInsets.all(8),
-          color: Colors.transparent,
+          color:
+              controller.isDarkMode.value ? Colors.transparent : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -284,7 +297,11 @@ class _ForYouState extends State<ForYou> {
               ),
               Text(
                 item.title.toString(),
-                style: const TextStyle(fontSize: 16, color: Colors.white),
+                style: TextStyle(
+                  fontSize: 16,
+                  color:
+                      controller.isDarkMode.value ? Colors.white : Colors.black,
+                ),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -324,7 +341,8 @@ class _ForYouState extends State<ForYou> {
         },
         child: Card(
           margin: const EdgeInsets.all(8),
-          color: Colors.transparent,
+          color:
+              controller.isDarkMode.value ? Colors.transparent : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -344,7 +362,11 @@ class _ForYouState extends State<ForYou> {
               ),
               Text(
                 item.node!.title.toString(),
-                style: const TextStyle(fontSize: 16, color: Colors.white),
+                style: TextStyle(
+                  fontSize: 16,
+                  color:
+                      controller.isDarkMode.value ? Colors.white : Colors.black,
+                ),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),

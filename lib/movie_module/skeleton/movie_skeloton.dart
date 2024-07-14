@@ -18,10 +18,10 @@ class MovieSkeleton extends StatelessWidget {
             margin: const EdgeInsets.all(8),
             color: Colors.transparent,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(15),
                   child: Image.network(
                     'https://images-cdn.ubuy.co.id/633feb8bd279163476374ad1-japan-anime-manga-poster-jujutsu.jpg',
                     fit: BoxFit.cover,
@@ -36,6 +36,7 @@ class MovieSkeleton extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                 ),
+                const SizedBox(height: 0),
               ],
             ),
           );

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:movie_app/movie_module/controllers/theme_controller.dart';
 import 'package:movie_app/movie_module/controllers/tv_show_controller.dart';
 import 'package:movie_app/movie_module/views/screens_detail/tv_show_detail_screen.dart';
 import '../../models/tv_show_model.dart';
@@ -15,6 +16,7 @@ class TvShowScreen extends StatefulWidget {
 
 class _TvShowScreenState extends State<TvShowScreen> {
   final _controller = Get.put(TvShowController());
+  final controller = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
       },
       child: Card(
         margin: const EdgeInsets.all(8),
-        color: Colors.transparent,
+        color: controller.isDarkMode.value ? Colors.transparent : Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -90,9 +92,10 @@ class _TvShowScreenState extends State<TvShowScreen> {
             ),
             Text(
               item.name!,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
-                color: Colors.white,
+                color:
+                    controller.isDarkMode.value ? Colors.white : Colors.black,
               ),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,

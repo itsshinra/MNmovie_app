@@ -4,6 +4,17 @@ import 'package:get/get.dart';
 class ThemeController extends GetxController {
   var isDarkMode = false.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    changeTheme(isDarkMode.value);
+    super.onClose();
+  }
+
   void changeTheme(bool isDark) {
     isDarkMode.value = isDark;
     Get.changeTheme(
@@ -19,20 +30,13 @@ class ThemeController extends GetxController {
                 unselectedLabelColor: Colors.grey,
                 indicatorColor: Colors.black,
               ),
-              inputDecorationTheme: InputDecorationTheme(
-                fillColor: Colors.white,
-                filled: true,
-              ),
               textTheme: const TextTheme(
                 bodyMedium: TextStyle(
                   fontSize: 14,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 bodyLarge: TextStyle(
                   fontSize: 20,
-                  color: Colors.white,
-                ),
-                bodySmall: TextStyle(
                   color: Colors.white,
                 ),
               ),
@@ -40,11 +44,14 @@ class ThemeController extends GetxController {
           : ThemeData(
               fontFamily: 'Poppins',
               brightness: Brightness.dark,
-              appBarTheme: const AppBarTheme(),
+              appBarTheme: const AppBarTheme(
+                foregroundColor: Colors.white,
+              ),
               tabBarTheme: const TabBarTheme(
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.grey,
-                  indicatorColor: Colors.white),
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: Colors.white,
+              ),
               textTheme: const TextTheme(
                 headlineLarge: TextStyle(
                   fontWeight: FontWeight.bold,

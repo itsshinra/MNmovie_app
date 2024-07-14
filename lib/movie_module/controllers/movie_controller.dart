@@ -43,6 +43,7 @@ class MovieController extends GetxController {
       MovieModel newMovies =
           await MovieService.getMovies(page: currentPage.value);
       if (newMovies.results.isNotEmpty) {
+        update();
         currentPage.value++;
         movies.addAll(newMovies.results);
       } else {

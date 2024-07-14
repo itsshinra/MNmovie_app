@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movie_app/movie_module/controllers/movie_controller.dart';
+import 'package:movie_app/movie_module/controllers/theme_controller.dart';
 import '../../models/movie_model.dart';
 import '../../skeleton/movie_skeloton.dart';
 import '../screens_detail/movie_detail_screen.dart';
@@ -64,6 +65,7 @@ class _MovieScreenState extends State<MovieScreen> {
   //   }
   // }
   final _controller = Get.put(MovieController());
+  final controller = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +122,7 @@ class _MovieScreenState extends State<MovieScreen> {
       },
       child: Card(
         margin: const EdgeInsets.all(8),
-        color: Colors.transparent,
+        color: controller.isDarkMode.value ? Colors.transparent : Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -136,9 +138,10 @@ class _MovieScreenState extends State<MovieScreen> {
             ),
             Text(
               item.titleOrName,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
-                color: Colors.white,
+                color:
+                    controller.isDarkMode.value ? Colors.white : Colors.black,
               ),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,

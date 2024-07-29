@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:http/http.dart' as http;
-import 'package:movie_app/movie_module/controllers/theme_controller.dart';
 import 'package:movie_app/movie_module/models/movie_model.dart';
 import 'package:movie_app/movie_module/models/tv_show_model.dart';
-import 'package:movie_app/movie_module/views/screens_detail/movie_detail_screen.dart';
-import 'package:movie_app/movie_module/views/screens_detail/tv_show_detail_screen.dart';
+import 'package:movie_app/movie_module/screens/screens_detail/movie_detail_screen.dart';
+import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
 import '../../util/const.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -23,7 +21,6 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<dynamic> searchResults = [];
   Timer? _debounce;
-  final controller = Get.put(ThemeController());
 
   Future<void> _performSearch(String query) async {
     if (query.isEmpty) {
@@ -93,9 +90,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        // foregroundColor: Colors.white,
+        foregroundColor: Colors.white,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Iconsax.arrow_left_2),
@@ -295,9 +292,7 @@ class _SearchScreenState extends State<SearchScreen> {
             fontWeight: FontWeight.w400,
           ),
           filled: true,
-          fillColor: controller.isDarkMode.value
-              ? Colors.grey.shade700
-              : Colors.grey.shade200,
+          fillColor: Colors.grey.shade700,
           prefixIcon: const Icon(
             Iconsax.search_normal_1,
             size: 26,

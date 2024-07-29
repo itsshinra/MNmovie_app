@@ -8,8 +8,12 @@ import '../models/cast_movie_model.dart';
 import '../models/movie_model.dart';
 import '../models/top_rated_model.dart';
 import '../models/tv_show_model.dart';
-import '../util/const.dart';
 import '../util/util.dart';
+
+// movie apiKey
+const globalApi = "1f1fbd508b3f8698eb1751a2a4dfe98f";
+//anime apiKey
+const clientId = "a202af558073a9bfb0b53e9738bfcabc";
 
 class MovieService {
   // Trending Movies

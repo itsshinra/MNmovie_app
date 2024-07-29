@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:movie_app/movie_module/views/all_screen/movie_screen.dart';
-import 'package:movie_app/movie_module/views/all_screen/profile_screen.dart';
-import 'package:movie_app/movie_module/views/all_screen/wistlist_screen.dart';
+import 'package:movie_app/movie_module/screens/all_screen/movie_screen.dart';
+import 'package:movie_app/movie_module/screens/all_screen/profile_screen.dart';
+import 'package:movie_app/movie_module/screens/all_screen/wistlist_screen.dart';
 import 'package:page_transition/page_transition.dart';
-import 'views/all_screen/for_you.dart';
-import 'views/all_screen/search_screen.dart';
-import 'views/all_screen/tv_show.dart';
+import 'screens/all_screen/for_you.dart';
+import 'screens/all_screen/search_screen.dart';
+import 'screens/all_screen/tv_show.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,9 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        // backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
         appBar: AppBar(
-          // foregroundColor: Colors.white,
+          foregroundColor: Colors.white,
           leading: GestureDetector(
             onTap: () {
               Navigator.push(
@@ -86,10 +86,13 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Iconsax.save_2),
             ),
           ],
-          bottom: const TabBar(
+          bottom: TabBar(
             tabAlignment: TabAlignment.center,
             isScrollable: true,
-            tabs: [
+            unselectedLabelColor: Colors.white.withOpacity(0.3),
+            indicatorColor: const Color(0xFFe6e6dd),
+            labelColor: Colors.white,
+            tabs: const [
               Tab(
                 child: Text(
                   'For You',

@@ -22,13 +22,12 @@ class _ForYouSkeletonState extends State<ForYouSkeleton> {
             margin: const EdgeInsets.all(8),
             color: Colors.transparent,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  width: double.infinity,
                   height: 300,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(20),
                     child: Image.network(
                       'https://images-cdn.ubuy.co.id/633feb8bd279163476374ad1-japan-anime-manga-poster-jujutsu.jpg',
                       fit: BoxFit.cover,
@@ -44,7 +43,6 @@ class _ForYouSkeletonState extends State<ForYouSkeleton> {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 0),
               ],
             ),
           );

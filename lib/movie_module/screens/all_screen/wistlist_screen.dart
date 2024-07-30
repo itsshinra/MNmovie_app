@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:movie_app/movie_module/controllers/theme_controller.dart';
 
 class MyListScreen extends StatefulWidget {
   const MyListScreen({super.key});
@@ -13,8 +11,6 @@ class MyListScreen extends StatefulWidget {
 
 class _MyListScreenState extends State<MyListScreen> {
   List<dynamic> searchResults = [];
-  final controller = Get.put(ThemeController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,16 +83,13 @@ class _MyListScreenState extends State<MyListScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "The Boys Season 3",
                       // result['name'] ?? result['title'] ?? 'N/A',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: controller.isDarkMode.value
-                            ? Colors.white
-                            : Colors.black,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -136,24 +129,18 @@ class _MyListScreenState extends State<MyListScreen> {
                             color: Colors.amber.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: Wrap(
+                          child: const Wrap(
                             crossAxisAlignment: WrapCrossAlignment.center,
                             spacing: 5,
                             children: [
-                              const Icon(
+                              Icon(
                                 Iconsax.star1,
                                 color: Colors.amber,
                                 size: 18,
                               ),
-                              Text(
-                                "8.7",
-                                style: TextStyle(
-                                  color: controller.isDarkMode.value
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                                // result['vote_average'].toStringAsFixed(1),
-                              ),
+                              Text("8.7"
+                                  // result['vote_average'].toStringAsFixed(1),
+                                  ),
                             ],
                           ),
                         ),

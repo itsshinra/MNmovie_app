@@ -1,12 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD:lib/movie_module/views/all_screen/for_you.dart
-import 'package:get/get.dart';
-import 'package:movie_app/movie_module/controllers/foryou_controller.dart';
-import 'package:movie_app/movie_module/controllers/theme_controller.dart';
-=======
->>>>>>> parent of 8dfca63 (Implement Getx State and DarkMode theme):lib/movie_module/screens/all_screen/for_you.dart
 import 'package:movie_app/movie_module/models/anime_model.dart';
 import 'package:movie_app/movie_module/models/movie_model.dart';
 import 'package:movie_app/movie_module/models/top_rated_model.dart';
@@ -27,42 +21,6 @@ class ForYou extends StatefulWidget {
 }
 
 class _ForYouState extends State<ForYou> {
-<<<<<<< HEAD:lib/movie_module/views/all_screen/for_you.dart
-  final _controller = Get.put(ForYouController());
-  final controller = Get.put(ThemeController());
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () => RefreshIndicator(
-        color: Colors.black,
-        backgroundColor: Colors.white,
-        onRefresh: _controller.refresh,
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text(
-              'Trending',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color:
-                    controller.isDarkMode.value ? Colors.white : Colors.black,
-              ),
-            ),
-            const SizedBox(height: 16),
-            _buildTrending(),
-            const SizedBox(height: 16),
-            Text(
-              'Upcoming',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color:
-                    controller.isDarkMode.value ? Colors.white : Colors.black,
-              ),
-=======
   late Future<MovieModel> trendingMovie;
   late Future<UpcomingMovieModel> upcomingMovies;
   late Future<TopRated> topRatedMovies;
@@ -113,7 +71,6 @@ class _ForYouState extends State<ForYou> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
->>>>>>> parent of 8dfca63 (Implement Getx State and DarkMode theme):lib/movie_module/screens/all_screen/for_you.dart
             ),
           ),
           const SizedBox(height: 16),
@@ -133,17 +90,6 @@ class _ForYouState extends State<ForYou> {
                 }
               },
             ),
-<<<<<<< HEAD:lib/movie_module/views/all_screen/for_you.dart
-            const SizedBox(height: 16),
-            Text(
-              'TopRated',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color:
-                    controller.isDarkMode.value ? Colors.white : Colors.black,
-              ),
-=======
           ),
           const SizedBox(height: 16),
           const Text(
@@ -151,7 +97,6 @@ class _ForYouState extends State<ForYou> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
->>>>>>> parent of 8dfca63 (Implement Getx State and DarkMode theme):lib/movie_module/screens/all_screen/for_you.dart
             ),
           ),
           const SizedBox(height: 16),
@@ -171,17 +116,6 @@ class _ForYouState extends State<ForYou> {
                 }
               },
             ),
-<<<<<<< HEAD:lib/movie_module/views/all_screen/for_you.dart
-            const SizedBox(height: 16),
-            Text(
-              'Anime',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color:
-                    controller.isDarkMode.value ? Colors.white : Colors.black,
-              ),
-=======
           ),
           const SizedBox(height: 16),
           const Text(
@@ -189,7 +123,6 @@ class _ForYouState extends State<ForYou> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
->>>>>>> parent of 8dfca63 (Implement Getx State and DarkMode theme):lib/movie_module/screens/all_screen/for_you.dart
             ),
           ),
           const SizedBox(height: 16),
@@ -288,8 +221,7 @@ class _ForYouState extends State<ForYou> {
         },
         child: Card(
           margin: const EdgeInsets.all(8),
-          color:
-              controller.isDarkMode.value ? Colors.transparent : Colors.white,
+          color: Colors.transparent,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -308,16 +240,9 @@ class _ForYouState extends State<ForYou> {
               ),
               Text(
                 item.title.toString(),
-<<<<<<< HEAD:lib/movie_module/views/all_screen/for_you.dart
-                style: TextStyle(
-                  fontSize: 16,
-                  color:
-                      controller.isDarkMode.value ? Colors.white : Colors.black,
-=======
                 style: const TextStyle(
                   fontSize: 18,
                   color: Colors.white,
->>>>>>> parent of 8dfca63 (Implement Getx State and DarkMode theme):lib/movie_module/screens/all_screen/for_you.dart
                 ),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
@@ -357,8 +282,7 @@ class _ForYouState extends State<ForYou> {
         },
         child: Card(
           margin: const EdgeInsets.all(8),
-          color:
-              controller.isDarkMode.value ? Colors.transparent : Colors.white,
+          color: Colors.transparent,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -377,15 +301,7 @@ class _ForYouState extends State<ForYou> {
               ),
               Text(
                 item.title.toString(),
-<<<<<<< HEAD:lib/movie_module/views/all_screen/for_you.dart
-                style: TextStyle(
-                  fontSize: 16,
-                  color:
-                      controller.isDarkMode.value ? Colors.white : Colors.black,
-                ),
-=======
                 style: const TextStyle(fontSize: 18, color: Colors.white),
->>>>>>> parent of 8dfca63 (Implement Getx State and DarkMode theme):lib/movie_module/screens/all_screen/for_you.dart
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -424,8 +340,7 @@ class _ForYouState extends State<ForYou> {
         },
         child: Card(
           margin: const EdgeInsets.all(8),
-          color:
-              controller.isDarkMode.value ? Colors.transparent : Colors.white,
+          color: Colors.transparent,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -444,15 +359,7 @@ class _ForYouState extends State<ForYou> {
               ),
               Text(
                 item.node!.title.toString(),
-<<<<<<< HEAD:lib/movie_module/views/all_screen/for_you.dart
-                style: TextStyle(
-                  fontSize: 16,
-                  color:
-                      controller.isDarkMode.value ? Colors.white : Colors.black,
-                ),
-=======
                 style: const TextStyle(fontSize: 18, color: Colors.white),
->>>>>>> parent of 8dfca63 (Implement Getx State and DarkMode theme):lib/movie_module/screens/all_screen/for_you.dart
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),

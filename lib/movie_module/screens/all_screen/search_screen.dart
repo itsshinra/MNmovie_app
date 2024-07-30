@@ -187,12 +187,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           Text(
                             result['name'] ?? result['title'] ?? 'N/A',
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: controller.isDarkMode.value
-                                  ? Colors.white
-                                  : Colors.black,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -242,11 +239,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                     Text(
                                       result['vote_average'].toStringAsFixed(1),
-                                      style: TextStyle(
-                                        color: controller.isDarkMode.value
-                                            ? Colors.white
-                                            : Colors.black,
-                                      ),
                                     ),
                                   ],
                                 ),
@@ -300,21 +292,16 @@ class _SearchScreenState extends State<SearchScreen> {
           suffixIcon: _searchController.text.isEmpty
               ? null
               : IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Iconsax.close_circle,
-                    color: controller.isDarkMode.value
-                        ? Colors.white
-                        : Colors.black,
+                    color: Colors.white,
                     size: 26,
                   ),
                   onPressed: () => _searchController.clear(),
                 ),
         ),
         cursorColor: const Color(0xFFe6e6dd),
-        style: TextStyle(
-          color: controller.isDarkMode.value ? Colors.white : Colors.black,
-          fontSize: 18,
-        ),
+        style: const TextStyle(color: Colors.white, fontSize: 18),
         onChanged: _onSearchChanged,
       ),
     );

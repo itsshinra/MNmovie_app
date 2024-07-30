@@ -32,24 +32,6 @@ class MovieApp extends StatelessWidget {
           ),
         ),
       ),
-      // darkTheme: ThemeData(
-      //   brightness: Brightness.dark,
-      //   fontFamily: 'Poppins',
-      //   appBarTheme: const AppBarTheme(
-      //     backgroundColor: Colors.black,
-      //   ),
-      //   textTheme: const TextTheme(
-      //     headlineLarge: TextStyle(
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //     bodyMedium: TextStyle(
-      //       fontSize: 14,
-      //     ),
-      //     bodyLarge: TextStyle(
-      //       fontSize: 20,
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

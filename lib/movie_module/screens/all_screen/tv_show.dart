@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:movie_app/movie_module/screens/screens_detail/tv_show_detail_screen.dart';
 import '../../models/tv_show_model.dart';
 import '../../servies/movie_service.dart';
@@ -96,9 +97,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
                 itemCount: _movies.length + (_hasMore ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index == _movies.length) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return  Center(child: LoadingAnimationWidget.dotsTriangle(color: Colors.white, size: 40));
                   }
                   return _buildItem(_movies[index]);
                 },

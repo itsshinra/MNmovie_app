@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../models/movie_model.dart';
 import '../../servies/movie_service.dart';
 import '../../skeleton/movie_skeloton.dart';
@@ -94,7 +95,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 itemCount: _movies.length + (_hasMore ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index == _movies.length) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Center(child: LoadingAnimationWidget.dotsTriangle(color: Colors.white, size: 40));
                   }
                   return _buildItem(_movies[index]);
                 },

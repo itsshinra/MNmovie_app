@@ -107,7 +107,7 @@ class _ForYouState extends State<ForYou> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text(
-                      'Errror Movie Reading: ${snapshot.error.toString()}');
+                      'Error Movie Reading: ${snapshot.error.toString()}');
                 }
                 if (snapshot.connectionState == ConnectionState.done) {
                   return _buildTopRatedBody(snapshot.data);
@@ -133,7 +133,7 @@ class _ForYouState extends State<ForYou> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text(
-                      'Errror Movie Reading: ${snapshot.error.toString()}');
+                      'Error Movie Reading: ${snapshot.error.toString()}');
                 }
                 if (snapshot.connectionState == ConnectionState.done) {
                   return _buildAnimeBody(snapshot.data);

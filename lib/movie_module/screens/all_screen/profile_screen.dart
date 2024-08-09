@@ -146,8 +146,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Iconsax.sun_15,
                               color: Color(0xFFe6e6dd),
                             ),
-                      title: const Text('Dark Mode',
-                          style: TextStyle(color: Color(0xFFe6e6dd))),
+                      title: _isOn
+                          ? const Text(
+                              'Dark Mode',
+                              style: TextStyle(
+                                color: Color(0xFFe6e6dd),
+                              ),
+                            )
+                          : const Text(
+                              'Light Mode',
+                              style: TextStyle(
+                                color: Color(0xFFe6e6dd),
+                              ),
+                            ),
                       trailing: Switch(
                         onChanged: (bool isOn) {
                           setState(() {

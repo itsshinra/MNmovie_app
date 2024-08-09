@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:movie_app/movie_module/models/anime_model.dart';
 import 'package:movie_app/movie_module/models/upcoming_movie_model.dart';
 
+import '../models/anime_detail_model.dart';
 import '../models/cast_movie_model.dart';
 import '../models/movie_model.dart';
 import '../models/top_rated_model.dart';
@@ -114,6 +115,25 @@ class MovieService {
         },
       );
       return compute(animeModelFromMap as ComputeCallback<String, AnimeModel>,
+          response.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // Anime Details
+  static Future<AnimeDetailModel> getAnimeDetails(int animeId) async {
+    final baseUrl =
+        "https://api.myanimelist.net/v2/anime/$animeId?fields=id,title,main_picture,start_date,synopsis,rank,media_type,status,genres,start_season,rating,related_anime,recommendations,studios?api_key=$clientId";
+    try {
+      final response = await http.get(
+        Uri.parse(baseUrl),
+        headers: {
+          'X-MAL-CLIENT-ID': clientId,
+        },
+      );
+      return compute(
+          animeDetailModelFromMap as ComputeCallback<String, AnimeDetailModel>,
           response.body);
     } catch (e) {
       throw Exception(e.toString());

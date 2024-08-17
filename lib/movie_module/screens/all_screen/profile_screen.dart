@@ -1,5 +1,9 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -10,6 +14,23 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isOn = true;
+
+  final _imagePicker = ImagePicker();
+
+  File? profile;
+
+  // create a method to pick image form gallery
+  void pickImage() async {
+    try {
+      final xFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+      if (xFile == null) return; // return do nothing
+      profile = File(xFile.path); // convert from xfile to file
+      setState(() {});
+    } catch (e) {
+      log("Failed to pick image from gallaery $e}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +56,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: 3,
                 ),
               ),
-              child: const CircleAvatar(
-                backgroundColor: Colors.black,
-                backgroundImage: AssetImage('assets/logos/me.1.JPG'),
-                radius: 65,
+              child: Stack(
+                children: [
+                  profile != null
+                      ? CircleAvatar(
+                          backgroundImage: FileImage(profile!),
+                          radius: 65,
+                        )
+                      : const CircleAvatar(
+                          backgroundColor: Colors.black,
+                          backgroundImage: AssetImage('assets/logos/me.1.JPG'),
+                          radius: 65,
+                        ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        onPressed: pickImage,
+                        icon: const Icon(
+                          Icons.camera_alt_rounded,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 8),
@@ -146,8 +193,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Iconsax.sun_15,
                               color: Color(0xFFe6e6dd),
                             ),
-                      title: const Text('Dark Mode',
-                          style: TextStyle(color: Color(0xFFe6e6dd))),
+                      title: _isOn
+                          ? const Text(
+                              'Dark Mode',
+                              style: TextStyle(
+                                color: Color(0xFFe6e6dd),
+                              ),
+                            )
+                          : const Text(
+                              'Light Mode',
+                              style: TextStyle(
+                                color: Color(0xFFe6e6dd),
+                              ),
+                            ),
                       trailing: Switch(
                         onChanged: (bool isOn) {
                           setState(() {
